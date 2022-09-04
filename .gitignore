@@ -3,6 +3,7 @@ superuser-login.txt
 loja/__pycache__/
 pedido/migrations/
 produto/migrations/
+perfil/migrations/
 
 
 
