@@ -1,23 +1,13 @@
 from django.shortcuts import render
-from django.views.generic.list import ListView
+from django.views.generic import ListView
 from django.views import View
 
 
-
-class ListaProdutos(ListView):
+class Pagar(View):
     pass
 
-class DetalheProduto(View):
+class FecharPedido(View):
     pass
 
-class AdicionarAoCarrinho(View):
-    pass
-
-class RemoverDoCarrinho(View):
-    pass
-
-class Carrinho(View):
-    pass
-
-class Finalizar(View):
+class Detalhe(View):
     pass
