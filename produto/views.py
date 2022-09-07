@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
-from .models import Produto
+from django.http import HttpResponse
+from django.contrib import messages
+from .models import Produto, Variacao
+from utils.returns_id import retorna_id
 
 
 class ListaProdutos(ListView):
@@ -17,13 +20,42 @@ class DetalheProduto(DetailView):
     slug_url_kwarg = 'slug'
 
 class AdicionarAoCarrinho(View):
-    pass
+    def get(self, *args, **kwargs):
+        http_referer = self.request.META.get(
+            'HTTP_REFERER',
+            reverse('produto:lista')
+        )
+        variacao_id = self.request.GET.get('vid')
+        if not variacao_id:
+            messages.error(
+                self.request,
+                'Produto não existe'
+            )
+            return redirect(http_referer)
+        variacao = get_object_or_404(Variacao, id=variacao_id)
+
+        if not self.request.session.get('carrinho'):
+            self.request.session['carrinho'] = {}
+            self.request.session.save()
+
+        carrinho = self.request.session['carrinho']
+        if variacao_id in carrinho:
+            # TODO: Variação exite no carrinho
+            pass
+        else:
+            # TODO: Variação não existe no carrinho
+            pass
+
+        return HttpResponse(f'Adicionar ao Carrinho: {variacao.produto} {variacao.nome}')
 
 class RemoverDoCarrinho(View):
-    pass
+    def get(self, *args, **kwargs):
+        return HttpResponse('Remover do Carrinho')
 
 class Carrinho(View):
-    pass
+    def get(self, *args, **kwargs):
+        return HttpResponse('Carrinho')
 
 class Finalizar(View):
-    pass
+    def get(self, *args, **kwargs):
+        return HttpResponse('Finalizar')
