@@ -17,5 +17,11 @@ class ProdutoAdmin(admin.ModelAdmin):
         VariacaoInline
     ]
 
+class VariacaoAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'nome'
+    ]
+
 admin.site.register(Produto, ProdutoAdmin)
-admin.site.register(Variacao)
+admin.site.register(Variacao, VariacaoAdmin)
