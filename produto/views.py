@@ -51,12 +51,12 @@ class AdicionarAoCarrinho(View):
 
         # Captura o objeto que representa a variação na nossa base de dados
         variacao = get_object_or_404(Variacao, id=variacao_id)
+        variacao_estoque = variacao.estoque
         produto = variacao.produto
 
         produto_id = produto.id
         produto_nome = produto.nome
         variacao_nome = variacao.nome or ''
-        variacao_id = variacao.id # sobrescrevendo valor de variacao_id
         preco_unitario = variacao.preco
         preco_unitario_promocional = variacao.preco_promocional
         quantidade = 1
@@ -87,8 +87,26 @@ class AdicionarAoCarrinho(View):
         # Acrescenta variação de produto ao carrinho
         carrinho = self.request.session['carrinho']
         if variacao_id in carrinho:
-            # TODO: Variação exite no carrinho
-            pass
+            quantidade_carrinho = carrinho[variacao_id]['quantidade']
+            quantidade_carrinho += 1
+
+            # Condição para determinar se a quantidade de produtos que o usuário quer
+            # adicionar no carrinho é maior que a quantidade que existe em estoque na loja.
+            if variacao_estoque < quantidade_carrinho:
+                messages.error(
+                    self.request,
+                    f'Estoque insuficiente para {quantidade_carrinho}x no produto {produto_nome}.'
+                    f'Adicionamos {variacao_estoque}x no seu carrinho.'
+                )
+                quantidade_carrinho = variacao_estoque
+
+            # As proximas linhas fazem o cálculo do preço dos produtos que estão no carrinho.
+            carrinho[variacao_id]['quantidade'] = quantidade_carrinho
+            carrinho[variacao_id]['preco_quantitativo'] = preco_unitario * quantidade_carrinho
+            carrinho[variacao_id]['preco_quantitativo_promocional'] = preco_unitario_promocional * \
+                                                                      quantidade_carrinho
+
+
         else:
             carrinho[variacao_id] = {
                 'produto_id':produto_id,
@@ -107,8 +125,13 @@ class AdicionarAoCarrinho(View):
         # Salvando a sessão
         self.request.session.save()
 
-        # httpresponse para teste
-        return HttpResponse(f'Adicionar ao Carrinho: {variacao.produto} {variacao.nome}')
+        messages.success(
+            self.request,
+            f'Produto {produto_nome} adicionado ao seu carrinho '
+            f'{carrinho[variacao_id]["quantidade"]}x.'
+        )
+
+        return redirect(http_referer)
 
 class RemoverDoCarrinho(View):
     def get(self, *args, **kwargs):
@@ -116,7 +139,10 @@ class RemoverDoCarrinho(View):
 
 class Carrinho(View):
     def get(self, *args, **kwargs):
-        return HttpResponse('Carrinho')
+        return render(
+            self.request,
+            'produto/carrinho.html'
+        )
 
 class Finalizar(View):
     def get(self, *args, **kwargs):
