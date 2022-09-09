@@ -134,8 +134,39 @@ class AdicionarAoCarrinho(View):
         return redirect(http_referer)
 
 class RemoverDoCarrinho(View):
+    # TODO: resolver problema de KeyError do final que deu no final da aula 234
     def get(self, *args, **kwargs):
-        return HttpResponse('Remover do Carrinho')
+        http_referer = self.request.META.get(
+            'HTTP_REFERER',
+            reverse('produto:lista')
+        )
+        variacao_id = self.request.GET.get('vid')
+
+        # Se o ID da variação do produto não existir
+        if not variacao_id:
+            return redirect(http_referer)
+
+        # Se o carrinho não existir
+        if not self.request.session.get('carrinho'):
+            return redirect(http_referer)
+
+        # ...
+        if variacao_id not in self.request.session['carrinho']:
+            return redirect(http_referer)
+
+        # Produto removido doo carrinho com sucesso.
+        # Mensagem antes de realmente remover o produto, porque assim
+        # é possível pegar o carrinho.
+        carrinho = self.request.session['carrinho'][variacao_id]
+        messages.success(
+            self.request,
+            f'Produto {carrinho[variacao_id]} removido do Carrinho.'
+        )
+
+        # Removendo o produto do carrinho.
+        del self.request.session['carrinho'][variacao_id]
+        self.request.session.save()
+        return redirect(http_referer)
 
 class Carrinho(View):
     def get(self, *args, **kwargs):
