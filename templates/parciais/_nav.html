@@ -1,3 +1,4 @@
+{% load omfilters %}
 {% load static %}
 
 <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
@@ -31,12 +32,12 @@
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-cart-link active" href="#">
+                <a class="nav-link nav-cart-link active" href="{% url 'produto:carrinho' %}">
                     <span class="nav-cart-text mr-1">
                         Carrinho
                     </span>
                     <span class="nav-cart-count mr-1">
-                        <strong>109x</strong>
+                        <strong>{{ request.session.carrinho|cart_total_qtd }}x</strong>
                     </span>
                     <span class="nav-cart-icon mr-2">
                         <i class="fas fa-shopping-cart"></i>
