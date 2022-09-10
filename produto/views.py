@@ -5,7 +5,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
 from .models import Produto, Variacao
-from utils.returns_id import retorna_id
+from pprint import pprint # TODO: APAGAR ESTA LINHA
 
 
 class ListaProdutos(ListView):
@@ -134,7 +134,6 @@ class AdicionarAoCarrinho(View):
         return redirect(http_referer)
 
 class RemoverDoCarrinho(View):
-    # TODO: resolver problema de KeyError do final que deu no final da aula 234
     def get(self, *args, **kwargs):
         http_referer = self.request.META.get(
             'HTTP_REFERER',
@@ -154,13 +153,13 @@ class RemoverDoCarrinho(View):
         if variacao_id not in self.request.session['carrinho']:
             return redirect(http_referer)
 
-        # Produto removido doo carrinho com sucesso.
+        # Produto removido do carrinho com sucesso.
         # Mensagem antes de realmente remover o produto, porque assim
         # é possível pegar o carrinho.
         carrinho = self.request.session['carrinho'][variacao_id]
         messages.success(
             self.request,
-            f'Produto {carrinho[variacao_id]} removido do Carrinho.'
+            f'Produto {carrinho["variacao_id"]} removido do Carrinho.'
         )
 
         # Removendo o produto do carrinho.
@@ -175,6 +174,6 @@ class Carrinho(View):
             'produto/carrinho.html'
         )
 
-class Finalizar(View):
+class ResumoDaCompra(View):
     def get(self, *args, **kwargs):
         return HttpResponse('Finalizar')
