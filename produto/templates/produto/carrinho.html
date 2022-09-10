@@ -4,8 +4,8 @@
 
 {% block content %}
 
+<!-- Exibe o carrinho de compras somente se existir um carrinho de compras -->
 {% if request.session.carrinho %}
-
 <div class="row mt-3">
     <div class="col">
         <h3>Carrinho de compras</h3>
@@ -20,7 +20,7 @@
                     <th>QTD.</th>
                     <th>Total</th>
                 </tr>
-
+                <!-- Loop sobre as linhas/produtos que existem no carrinho -->
                 {% for linha in request.session.carrinho.values %}
                     <tr>
                         <td class="d-none d-lg-block">
@@ -39,14 +39,18 @@
                         </td>
 
                         <td>
+                            <!-- Quantidade de cada produto/varição exibida no carrinho -->
                             {{ linha.quantidade }}x
+
+                                <!-- Se existir preço promocional, exibe os valores que estão em preço -->
+                                <!-- unitário promocional-->
                             {% if linha.preco_unitario_promocional %}
                                 {{ linha.preco_unitario_promocional }}
                             {% else %}
                                 {{ linha.preco_unitario }}
                             {% endif %}
                         </td>
-
+                        <!--Exibe valor final-->
                         {% if linha.preco_quantitativo_promocional %}
                             <td>{{ linha.preco_quantitativo_promocional|formata_preco }}</td>
                         {% else %}
@@ -69,7 +73,7 @@
             <table class="table">
                 <tr>
                     <td class="font-weight-bold">Total</td>
-                    <td>R$100000</td>
+                    <td>{{ request.session.carrinho|cart_totals|formata_preco }}</td>
                 </tr>
             </table>
         </div>
