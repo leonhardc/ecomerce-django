@@ -64,6 +64,8 @@ class UserForm(forms.ModelForm):
         error_msg_email_exists = 'E-mail já existe.'
         error_msg_password_not_match = 'As senhas digitadas não são iguais.'
         error_msg_password_short = 'A senha digitada precisa ser igual ou maior que 6 caracteres.'
+        error_msg_required_field = 'Este campo é obrigatório.'
+
 
         # Usuário logado | Atualização
         if self.usuario:
@@ -90,7 +92,25 @@ class UserForm(forms.ModelForm):
 
         # Usuário não logado | Cadastro
         else:
-            pass
+            # Validação do campo 'username'
+            if user_db:
+                validation_error_messages['username'] = error_msg_user_exists
+            # Validação do campo 'email'
+            if email_db:
+                validation_error_messages['email'] = error_msg_email_exists
+            # Validação do campo 'password'
+            # Validação de conformidade
+            if not password_data:
+                validation_error_messages['password'] = error_msg_required_field
+            # Validação de não existência do campo
+            if not password_confirm_data:
+                validation_error_messages['password_confirm'] = error_msg_required_field
+
+            if password_data != password_confirm_data:
+                validation_error_messages['password_confirm'] = error_msg_password_not_match
+            # Validação de tamanho
+            if len(password_data) < 6:
+                validation_error_messages['password'] = error_msg_password_short
 
         # Se existirem erros de validação na hora do cadastro de usuário
         if validation_error_messages:
