@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from . import models, forms
 import copy
-from django.views.generic import ListView
 from django.http import HttpResponse
 
 
@@ -132,7 +131,6 @@ class Criar(BasePerfil):
         )
 
         return redirect('perfil:criar')
-        return self.renderizar
 
 class Atualizar(View):
     pass
