@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load omfilters %}
+
+{% block content %}
+
+
+<div class="content" style="display:flex; flex-direction:column; align-items: center;">
+
+    <div class="informacoes-basicas" 
+        style="
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: 2px solid rgba(128, 128, 128, 0.556);
+        padding: 20px;
+        width: 80%;
+        padding: 40px;
+        ">
+        <h4 style="text-align: center; margin-bottom: 40px;">Informacões Básicas</h4>
+        <div class="grid-content"
+            style="
+            display:grid; 
+            grid-template-columns: 1fr 1fr;
+            row-gap: 10px;
+            ">
+            <span><strong>Usuário:</strong> {{user.perfil.usuario}}</span>
+            <span><strong>Nome Completo:</strong> {{user.first_name}} {{user.last_name}}</span>
+            <span><strong>CPF:</strong> {{user.perfil.cpf|formata_cpf}}</span>            
+            <span><strong>Data de Nascimento:</strong> {{user.perfil.data_nascimento}}</span> 
+            <span><strong>Idade:</strong> {{user.perfil.idade}}</span>           
+        </div>
+    </div>
+    
+    <div class="informacoes-endereco" 
+        style="
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: 2px solid rgba(128, 128, 128, 0.556);
+        padding: 20px;
+        width: 80%;        
+        padding: 40px;
+        ">
+        <h4 style="text-align: center; margin-bottom: 40px;">Endereço</h4>
+        <div class="grid-content"
+            style="
+            display:grid; 
+            grid-template-columns: 1fr 1fr 1fr;
+            row-gap: 10px;">
+            <span><strong>Rua:</strong> {{user.perfil.endereco}} </span> 
+            <span><strong>Numero:</strong> {{user.perfil.numero}} </span>              
+            <span><strong>Bairro:</strong> {{user.perfil.bairro}} </span>  
+            <span><strong>Cidade:</strong> {{user.perfil.cidade}} </span> 
+            <span><strong>CEP:</strong> {{user.perfil.cep|formata_cep}} </span>
+            <span><strong>Estado:</strong> {{user.perfil.estado}} </span> 
+            <span><strong>Complemento:</strong> {{user.perfil.complemento}} </span>
+        </div>
+    </div>
+    
+
+</div>
+
+{% endblock %}
