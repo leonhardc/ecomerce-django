@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
+from django.views.generic.list import ListView
 from . import models, forms
 import copy
 from django.http import HttpResponse
@@ -170,4 +171,17 @@ class Logout(View):
                                     # logout
         logout(self.request)
         redirect('produto:lista')
+
+
+class DetalhePerfil(ListView):
+    """
+        Detalha os dados do perfil do usuário
+    """
+    # TODO: IMPLEMENTAR ESSA VIEW
+    model = models.Perfil
+    template_name = 'perfil/detalhe.html'
+    context_object_name = 'perfil'
+    #
+    # def get(self, *args, **kwargs):
+    #     return HttpResponse('Detalhe')
 
