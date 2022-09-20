@@ -65,6 +65,8 @@ class Produto(models.Model):
         if self.imagem:
             self.resize_image(self.imagem, max_image_size)
 
+    # Esse método define como será mostrado a representação do nosso objeto quando chamarmos
+    # ele em um print
     def __str__(self):
         return self.nome
 

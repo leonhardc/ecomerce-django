@@ -9,21 +9,28 @@ from pprint import pprint # TODO: APAGAR ESTA LINHA
 
 
 class ListaProdutos(ListView):
-
-    # Lista os produtos da base de dados na página inicial.
+    """
+        Lista todos os produtos da base de dados
+    """
     model = Produto
     template_name = 'produto/lista.html'
     context_object_name = 'produtos'
 
 class DetalheProduto(DetailView):
+    """
+        Mostra os detalhes do produto selecionado na página principal
+    """
 
-    # Mostra os detalhes de um produto escolhido pelo cliente na página anterior.
     model = Produto
     template_name = 'produto/detalhe.html'
     context_object_name = 'produto'
     slug_url_kwarg = 'slug'
 
 class AdicionarAoCarrinho(View):
+    """
+        Adiciona o produto selecionado no carrinho de compras
+    """
+
     def get(self, *args, **kwargs):
 
         # HTTP_REFERER é um método que o django usa para guardar a referência da página
@@ -134,6 +141,9 @@ class AdicionarAoCarrinho(View):
         return redirect(http_referer)
 
 class RemoverDoCarrinho(View):
+    """
+        Remove produto selecionado do carrinho de compras.
+    """
     def get(self, *args, **kwargs):
         http_referer = self.request.META.get(
             'HTTP_REFERER',
@@ -168,6 +178,9 @@ class RemoverDoCarrinho(View):
         return redirect(http_referer)
 
 class Carrinho(View):
+    """
+        Lista todos os produtos adicionados ao carrinho.
+    """
     def get(self, *args, **kwargs):
         contexto = {
             'carrinho': self.request.session.get('carrinho', {})
@@ -178,8 +191,10 @@ class Carrinho(View):
             contexto
         )
 
-
 class ResumoDaCompra(View):
+
+    # TODO: IMPLEMENTAR VIEW RESUMODACOMPRA()
+
     def get(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
             return redirect('perfil:criar')
