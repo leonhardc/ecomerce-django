@@ -21,10 +21,11 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Conta
+                    Olá {{ request.user }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'perfil:criar' %}">Atualizar Dados</a>
+                    <a class="dropdown-item" href="{% url 'perfil:detalheperfil' %}">Visite seu perfil</a>
+                    <a class="dropdown-item" href="{% url 'perfil:criar' %}">Atualize seus dados</a>
                     <a class="dropdown-item" href="{% url 'perfil:logout' %}">Sair</a>
                 </div>
             </li>
