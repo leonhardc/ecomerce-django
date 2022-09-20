@@ -15,5 +15,13 @@ def cart_total_qtd(carrinho):
 def cart_totals(carrinho):
     return utils.cart_totals(carrinho)
 
+@register.filter
+def formata_cpf(cpf):
+    return utils.formata_cpf(cpf)
+
+@register.filter
+def formata_cep(cep):
+    return utils.formata_cep(cep)
+
 
 

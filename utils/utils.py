@@ -13,3 +13,9 @@ def cart_totals(carrinho):
             for item in carrinho.values()
         ]
     )
+
+def formata_cpf(cpf):
+    return f'{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}'
+
+def formata_cep(cep):
+    return f'{cep[:5]}-{cep[5:]}'
