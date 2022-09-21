@@ -6,6 +6,7 @@
 
 <div class="row">
     {% if not request.user.is_authenticated %}
+
     <div class="col-lg mt-3">
         <h4>Login</h4>
         <p>Se você já fez cadastro, basta entrar com seu usuário e senha</p>
@@ -13,19 +14,22 @@
         <form method="POST" action="{% url 'perfil:login' %}">
             {% csrf_token %}
             <div class="form-group">
-                <label for="username">Usuário</label>
+                <label for="usuario">Usuário</label>
                 <input
                         type="text"
                         class="form-control"
-                        id="username"
-                        aria-describedby="userlHelp"
+                        id="usuario"
+                        name="usuario"
+                        value=""
                         placeholder="Digite seu usuário">
             </div>
             <div class="form-group">
-                <label for="password">Senha</label>
+                <label for="senha">Senha</label>
                 <input type="password"
                        class="form-control"
-                       id="password"
+                       id="senha"
+                       name="senha"
+                       value=""
                        placeholder="Digite sua senha">
             </div>
             <button type="submit" class="btn btn-primary">Entrar</button>
