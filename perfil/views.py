@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
+from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
@@ -7,8 +8,6 @@ from django.views.generic.list import ListView
 from . import models, forms
 import copy
 from django.http import HttpResponse
-
-
 
 
 class BasePerfil(View):
@@ -134,14 +133,32 @@ class Criar(BasePerfil):
         return redirect('perfil:criar')
 
 class Atualizar(View):
-    pass
+    def get(self, *args, **kwargs):
+        return render(self.request, template_name='perfil/atualizar.html')
+
+# def login(request):
+#
+#     if request.method != 'POST':
+#         # verifica se o formulário esta vazio
+#         return redirect('perfil:criar')
+#     usuario = request.POST.get('usuario')
+#     senha = request.POST.get('senha')
+#     # autenticar usuario
+#     user = auth.authenticate(request, username=usuario, password=senha)
+#     # se o usuário não autenticar, a função auth.authenticate() irá retornar None
+#     if not user:
+#         messages.error(request, 'Usuário ou Senha inválidos.')
+#         return redirect('perfil:criar')
+#     else:
+#         auth.login(request, user) #faz login
+#         messages.success(request, 'Voce fez login com sucesso.')
+#         return redirect('produto:lista')
+
 
 class Login(View):
-    def get(self, *args, **kwargs):
-
-        usuario = self.request.POST.get('username')
-        senha = self.request.POST.get('password')
-
+    def post(self, *args, **kwargs):
+        usuario = self.request.POST.get('usuario')
+        senha = self.request.POST.get('senha')
         if not usuario or not senha:
             messages.error(
                 self.request,
@@ -154,14 +171,17 @@ class Login(View):
             username=usuario,
             password=senha
         )
-
         if autentica:
             login(
                 self.request,
-                user=usuario
+                autentica
             )
+            messages.success(
+                self.request,
+                'Login efetuado com sucesso'
+            )
+            return redirect('produto:lista')
 
-        return HttpResponse('OI')
 
 class Logout(View):
     def get(self, *args, **kwargs):
@@ -170,7 +190,7 @@ class Logout(View):
         self.request.session.save() # Salvando carrinho na sessão para que não perdamos ele ao fazer
                                     # logout
         logout(self.request)
-        redirect('produto:lista')
+        return redirect('produto:lista')
 
 
 class DetalhePerfil(ListView):
@@ -181,7 +201,5 @@ class DetalhePerfil(ListView):
     model = models.Perfil
     template_name = 'perfil/detalhe.html'
     context_object_name = 'perfil'
-    #
-    # def get(self, *args, **kwargs):
-    #     return HttpResponse('Detalhe')
+
 
