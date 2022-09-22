@@ -11,7 +11,8 @@ from django.http import HttpResponse
 
 
 class BasePerfil(View):
-    template_name = 'perfil/criar.html'
+    # template_name = 'perfil/criar.html'
+    template_name = 'perfil/login-signup.html'
 
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
@@ -159,6 +160,7 @@ class Login(View):
     def post(self, *args, **kwargs):
         usuario = self.request.POST.get('usuario')
         senha = self.request.POST.get('senha')
+
         if not usuario or not senha:
             messages.error(
                 self.request,
