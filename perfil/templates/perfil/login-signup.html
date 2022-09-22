@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Conteudo -->
+<div class="container-login">
+<div class="main-login">  	
+    <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+            <form>
+                {% csrf_token %}
+                <label class="label-login" for="chk" aria-hidden="true">Inscrever-se</label>
+                <input class="input-login" type="text" name="txt" placeholder="Usuário" required="">
+                <input class="input-login" type="email" name="email" placeholder="Email" required="">
+                <input class="input-login" type="password" name="pswd" placeholder="Senha" required="">
+                <button type="submit" class="button-login">Inscrever-se</button>
+            </form>
+        </div>
+
+        <div class="login">
+            <form method="POST" action="{% url 'perfil:login' %}">
+                {% csrf_token %}
+                <label class="label-login" for="chk" aria-hidden="true">Login</label>
+                <input
+                        class="input-login"
+                        id="usuario"
+                        name="usuario"
+                        type="text" name="user"
+                        placeholder="Usuário"
+                        required="">
+
+                <input
+                        class="input-login"
+                        id="senha"
+                        name="senha"
+                        type="password"
+                        placeholder="Senha"
+                        required="">
+                <button type="submit" class="button-login">Entrar</button>
+            </form>
+        </div>
+</div>
+</div>
+
+{% endblock %}
