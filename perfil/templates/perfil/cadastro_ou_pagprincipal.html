@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<!-- Pergunta: Continuar cadastro ou Seguir para Página Principal -->
+<div class="b-main-container">
+    <h2>Qual será seu próximo passo?</h2> <br> <br>
+    <div class="b-container">
+        <!-- Terminar cadastro de usuário -->
+        <a href="#" class="b-link">
+            <button class="butom-loger">Termine seu cadastro</button>
+        </a>
+        <!-- Ir para Página Inicial -->
+        <a href="{% url 'produto:lista' %}" class="b-link">
+            <button class="butom-loger">Página Principal</button>
+        </a>
+        
+    </div>
+</div>
+{% endblock %}
