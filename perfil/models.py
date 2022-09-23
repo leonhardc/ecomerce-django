@@ -6,6 +6,7 @@ import re
 
 
 class Perfil(models.Model):
+
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     idade = models.PositiveIntegerField()
     data_nascimento = models.DateField()
@@ -59,15 +60,12 @@ class Perfil(models.Model):
         if not valida_cpf(self.cpf):
             error_messages['cpf'] = 'Digite um cpf válido'
 
-        if re.search(r'^[0-9]', self.cep) or len(self.cep) < 8:
+        if len(self.cep) < 8: # TODO: fazer uma validação de cpf mais forte
             error_messages['cep'] = 'CEP inválido, digite apenas números'
 
         # Depois de validar todos os campos
         if error_messages:
             raise ValidationError(error_messages)
-
-
-
 
     class Meta:
         verbose_name = 'Perfil'
