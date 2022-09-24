@@ -52,9 +52,40 @@
         </div>
     </div>
     
-    <a href="{% url 'perfil:atualizar' %}">
-        <button class="btn btn-primary">Atualizar seus dados</button>
-    </a>
+    <!-- Script de confirmação de exclusão de usuário -->
+    <script>
+        function exclui_usuario() {
+        if (confirm("Quer realmente excluir este usuário?") == true) {
+            return true
+        } else {
+            return false
+        }
+        document.getElementById("demo").innerHTML = text;
+                            }
+    </script>
+
+
+    <div 
+    style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        min-width: 60%;
+        ">
+        <a href="{% url 'perfil:atualizar' %}">
+            <button class="btn btn-primary">Atualizar seus dados</button>
+        </a>
+        <a href="#">
+            <button 
+            class="btn btn-primary" 
+            style="background-color:rgb(255, 60, 0);
+            "
+            onclick="return exclui_usuario()">
+            <!-- Adicionar Script de confirmação -->
+            Deletar usuário</button>
+        </a>
+    </div>
+    
 
 </div>
 
