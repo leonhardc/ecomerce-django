@@ -250,6 +250,22 @@ class DetalhePerfil(ListView):
     template_name = 'perfil/detalhe.html'
     context_object_name = 'perfil'
 
+def deletar_usuario(request):
+    if request.user.is_authenticated:
+        user = User.objects.filter(username=request.user)
+        user.delete()
+        messages.success(
+            request,
+            'Usuário deletado com sucesso'
+        )
+        return redirect('produto:lista')
+    else:
+        messages.error(
+            request,
+            'Usuário não existe'
+        )
+        return redirect('produto:lista')
+
 
 
 
