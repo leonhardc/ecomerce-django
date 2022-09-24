@@ -1,31 +1,41 @@
+# Importações
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from django.views.generic.list import ListView
 from . import models, forms
 import copy
+# TODO: APAGAR IMPORTAÇÕES NÃO USADAS
 from django.http import HttpResponse
+from django.contrib import auth
 from pprint import pprint
 
+
+# Código do arquivo
+
 class BasePerfil(View):
-    # template_name = 'perfil/criar.html'
+
     template_name = 'perfil/login-signup.html'
 
-    def setup(self, *args, **kwargs):
+    def setup(self, *args, **kwargs): # Início do setup()
+        """ Indica funcionamento básico das variáveis de instância das classes filhas """
         super().setup(*args, **kwargs)
-
+        
         self.carrinho = copy.deepcopy(self.request.session.get('carrinho', {}))
         self.perfil = None
 
-        if self.request.user.is_authenticated: # se usuário está autenticado
+        if self.request.user.is_authenticated: # Para usuário autenticado
+            # 1. Muda template_name para o template de criar ou atualizar um perfil
+            self.template_name = 'perfil/criar.html'
 
+            # 2. Verifica se há algum registro de perfil com determinada instância de usuário
             self.perfil = models.Perfil.objects.filter(
                 usuario=self.request.user
             ).first()
 
+            # 3. Formata contexto para usuário autenticado
             self.contexto = {
                 'userform': forms.UserForm(
                     data=self.request.POST or None,
@@ -37,7 +47,8 @@ class BasePerfil(View):
                     instance = self.perfil
                 )
             }
-        else:
+        else: # Para usuário não autenticado
+            # Formata contexto para usuário não autenticado
             self.contexto = {
                 'userform': forms.UserForm(data=self.request.POST or None),
                 'perfilform': forms.PerfilForm(data=self.request.POST or None)
@@ -46,48 +57,45 @@ class BasePerfil(View):
         self.userform = self.contexto['userform']
         self.perfilform = self.contexto['perfilform']
 
-        if self.request.user.is_authenticated:
-            self.template_name = 'perfil/criar.html'
-
+        # Renderizar template
         self.renderizar = render(
             self.request,
             self.template_name,
             self.contexto
         )
+    # Final do setup()
 
     def get(self, *args, **kwargs):
+        """ Retorna template correto já renderizado """
         return self.renderizar
 
 class Criar(BasePerfil):
     def post(self, *args, **kwargs):
 
-        # Validação para Usuário
+        # Validação para formulário de usuário
         if not self.userform.is_valid():
             messages.error(
                 self.request,
                 'Formulário Invalido'
             )
             return self.renderizar
-        else:
-            pass
 
+        # Se o formulário de usuário for válido, faça tudo que está abaixo
+        # LEMBRETE: Este formulário não deve atualizar senha
         username = self.userform.cleaned_data.get('username')
-        password = self.userform.cleaned_data.get('password')
         email = self.userform.cleaned_data.get('email')
         first_name = self.userform.cleaned_data.get('first_name')
         last_name = self.userform.cleaned_data.get('last_name')
 
         # Usuário Logado | Atualizar
         if self.request.user.is_authenticated:
+
             usuario = get_object_or_404(
                 User,
                 username=self.request.user.username
             )
+
             usuario.username = username
-
-            if password:
-                usuario.set_password(password)
-
             usuario.email = email
             usuario.first_name = first_name
             usuario.last_name = last_name
@@ -105,7 +113,7 @@ class Criar(BasePerfil):
                 perfil.usuario = usuario
                 perfil.save()
 
-
+        # Salva o carrinho na sessão
         self.request.session['carrinho'] = self.carrinho
         self.request.session.save()
 
@@ -120,7 +128,7 @@ class Criar(BasePerfil):
                 'Você fez login e pode concluir sua compra.'
             )
 
-        return redirect('perfil:criar')
+        return redirect('perfil:detalheperfil')
 
 class CriarUsuario(View):
     def post(self, *args, **kwargs):
@@ -194,7 +202,7 @@ class ValidarUsuario(BasePerfil):
 
 class Atualizar(View):
     def get(self, *args, **kwargs):
-        return render(self.request, template_name='perfil/atualizar.html')
+        return redirect('perfil:criar')
 
 class Login(View):
     def post(self, *args, **kwargs):
@@ -242,23 +250,6 @@ class DetalhePerfil(ListView):
     template_name = 'perfil/detalhe.html'
     context_object_name = 'perfil'
 
-# def login(request):
-#
-#     if request.method != 'POST':
-#         # verifica se o formulário esta vazio
-#         return redirect('perfil:criar')
-#     usuario = request.POST.get('usuario')
-#     senha = request.POST.get('senha')
-#     # autenticar usuario
-#     user = auth.authenticate(request, username=usuario, password=senha)
-#     # se o usuário não autenticar, a função auth.authenticate() irá retornar None
-#     if not user:
-#         messages.error(request, 'Usuário ou Senha inválidos.')
-#         return redirect('perfil:criar')
-#     else:
-#         auth.login(request, user) #faz login
-#         messages.success(request, 'Voce fez login com sucesso.')
-#         return redirect('produto:lista')
 
 
 
