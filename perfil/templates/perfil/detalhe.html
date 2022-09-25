@@ -6,8 +6,7 @@
 
 <div class="content" style="display:flex; flex-direction:column; align-items: center;">
 
-    <div class="informacoes-basicas" 
-        style="
+  <div class="informacoes-basicas" style="
         border-radius: 10px;
         margin-bottom: 10px;
         border: 2px solid rgba(128, 128, 128, 0.556);
@@ -15,21 +14,42 @@
         width: 80%;
         padding: 40px;
         ">
-        <h4 style="text-align: center; margin-bottom: 40px;">Informacões Básicas</h4>
-        <div class="grid-content"
-        style="display: flex; 
+    <h4 style="text-align: center; margin-bottom: 40px;">Informacões de Usuário</h4>
+    <div class="grid-content" style="display: flex; 
         flex-direction: row;
-        flex-wrap: wrap;"> 
-            <span style="padding: 10px 20px;"><strong>Usuário:</strong> {{user.perfil.usuario}}</span>
-            <span style="padding: 10px 20px;"><strong>Nome Completo:</strong> {{user.first_name}} {{user.last_name}}</span>
-            <span style="padding: 10px 20px;"><strong>CPF:</strong> {{user.perfil.cpf|formata_cpf}}</span>            
-            <span style="padding: 10px 20px;"><strong>Data de Nascimento:</strong> {{user.perfil.data_nascimento}}</span> 
-            <span style="padding: 10px 20px;"><strong>Idade:</strong> {{user.perfil.idade}}</span>           
-        </div>
+        flex-wrap: wrap;">
+
+      <table class="table table-striped">
+        <thead>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Usuário</th>
+            <td>{{user.perfil.usuario}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Nome</th>
+            <td>{{user.first_name}} {{user.last_name}}</td>
+          </tr>
+          <tr>
+            <th scope="row">CPF</th>
+            <td>{{user.perfil.cpf|formata_cpf}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Data de Nascimento</th>
+            <td>{{user.perfil.data_nascimento}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Idade</th>
+            <td>{{user.perfil.idade}}</td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
-    
-    <div class="informacoes-endereco" 
-        style="
+  </div>
+
+  <div class="informacoes-endereco" style="
         border-radius: 10px;
         margin-bottom: 10px;
         border: 2px solid rgba(128, 128, 128, 0.556);
@@ -37,55 +57,89 @@
         width: 80%;        
         padding: 40px;
         ">
-        <h4 style="text-align: center; margin-bottom: 40px;">Endereço</h4>
-        <div class="grid-content"
-            style="display: flex; 
+    <h4 style="text-align: center; margin-bottom: 40px;">Endereço</h4>
+    <div class="grid-content" style="display: flex; 
             flex-direction: row;
             flex-wrap: wrap;">
-            <span style="padding: 10px 20px;"><strong>Rua:</strong> {{user.perfil.endereco}} </span> 
-            <span style="padding: 10px 20px;"><strong>Bairro:</strong> {{user.perfil.bairro}} </span> 
-            <span style="padding: 10px 20px;"><strong>Numero:</strong> {{user.perfil.numero}} </span> 
-            <span style="padding: 10px 20px;"><strong>Cidade:</strong> {{user.perfil.cidade}} </span> 
-            <span style="padding: 10px 20px;"><strong>CEP:</strong> {{user.perfil.cep|formata_cep}} </span>
-            <span style="padding: 10px 20px;"><strong>Estado:</strong> {{user.perfil.estado}} </span> 
-            <span style="padding: 10px 20px;"><strong>Complemento:</strong> {{user.perfil.complemento}} </span>
-        </div>
+
+      <table class="table table-striped">
+        <thead>
+        </thead>
+        <tbody>
+          <tr>
+
+            <th scope="row">Rua</th>
+            <td>{{user.perfil.endereco}}</td>
+
+            <th scope="row">Bairro</th>
+            <td>{{user.perfil.bairro}}</td>
+
+            <th scope="row">Numero</th>
+            <td>{{user.perfil.numero}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Cidade</th>
+            <td>{{user.perfil.cidade}}</td>
+
+            <th scope="row">CEP</th>
+            <td>{{user.perfil.cep|formata_cep}}</td>
+
+            <th scope="row">Estado</th>
+            <td>{{user.perfil.estado}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Complemento</th>
+            <td>{{user.perfil.complemento}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
-    
-    <!-- Script de confirmação de exclusão de usuário -->
-    <script>
-        function exclui_usuario() {
-        if (confirm("Quer realmente excluir este usuário?") == true) {
-            return true
-        } else {
-            return false
-        }
-        document.getElementById("demo").innerHTML = text;
-                            }
-    </script>
+  </div>
+
+  <!-- Script de confirmação de exclusão de usuário -->
+  <script>
+    function exclui_usuario() {
+      if (confirm("Quer realmente excluir este usuário?") == true) {
+        return true
+      } else {
+        return false
+      }
+      document.getElementById("demo").innerHTML = text;
+    }
+  </script>
 
 
-    <div 
-    style="
+  <div style="
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         min-width: 60%;
         ">
-        <a href="{% url 'perfil:atualizar' %}">
-            <button class="btn btn-primary">Atualizar seus dados</button>
-        </a>
-        <a href="#">
-            <button 
-            class="btn btn-primary" 
-            style="background-color:rgb(255, 60, 0);
-            "
-            onclick="return exclui_usuario()">
-            <!-- Adicionar Script de confirmação -->
-            Deletar usuário</button>
-        </a>
-    </div>
-    
+    <a href="{% url 'perfil:atualizar' %}">
+      <button class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
+        </svg>
+        Atualizar seus dados</button>
+    </a>
+    <a href="{% url 'perfil:deletar_usuario' %}">
+      <button class="btn btn-primary" style="background-color:rgb(255, 60, 0);
+            " onclick="return exclui_usuario()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
+          viewBox="0 0 16 16">
+          <path
+            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+        </svg>
+        Deletar dados de usuário
+      </button>
+    </a>
+  </div>
+
 
 </div>
 
