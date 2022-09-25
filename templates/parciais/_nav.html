@@ -2,60 +2,95 @@
 {% load static %}
 
 <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
-    <a class="navbar-brand" href="{% url 'produto:lista' %}">E-comerce</a>
+    <a class="navbar-brand" href="{% url 'produto:lista' %}">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        e-comerce</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
+    <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+        </button>
+    </form>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'produto:lista' %}">Home <span class="sr-only">(current)</span></a>
+
+            {% if request.session.carrinho %}
+            <li class="nav-item">
+                <a class="nav-link nav-cart-link active" href="{% url 'produto:carrinho' %}">
+                    <span class="nav-cart-icon mr-2">
+                        <i class="fas fa-shopping-cart"></i>
+                    </span>
+                    <span class="nav-cart-text mr-1">
+                        Carrinho
+                    </span>
+                    <span class="nav-cart-count mr-1">
+                        <strong>{{ request.session.carrinho|cart_total_qtd }}x</strong>
+                    </span>                    
+                </a>
             </li>
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" href="#">Link</a>-->
-<!--            </li>-->
+            {% endif %}
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'produto:lista' %}">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    Home <span class="sr-only">(current)</span></a>
+            </li>
 
             {% if request.user.is_authenticated %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Olá {{ request.user }}
+            <li class="nav-item dropdown mr-5">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i> Olá {{ request.user }}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'perfil:detalheperfil' %}">Visite seu perfil</a>
-                    <a class="dropdown-item" href="{% url 'perfil:criar' %}">Atualize seus dados</a>
-                    <a class="dropdown-item" href="{% url 'perfil:logout' %}">Sair</a>
+                <div class="dropdown-menu mr-2" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'perfil:detalheperfil' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-person" viewBox="0 0 16 16">
+                            <path
+                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                        </svg>
+                        Perfil</a>
+                    <a class="dropdown-item" href="{% url 'perfil:criar' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path
+                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path fill-rule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                        </svg>
+                        Atualize seus dados</a>
+                    <a class="dropdown-item" href="{% url 'perfil:logout' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                            <path fill-rule="evenodd"
+                                d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                        </svg>
+                        Sair</a>
                 </div>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'perfil:criar' %}">Entrar</a>
+                <a class="nav-link" href="{% url 'perfil:criar' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+                        <path fill-rule="evenodd"
+                            d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                    </svg>
+                    Entrar</a>
             </li>
             {% endif %}
 
 
-            {% if request.session.carrinho %}
-                <li class="nav-item">
-                    <a class="nav-link nav-cart-link active" href="{% url 'produto:carrinho' %}">
-                        <span class="nav-cart-text mr-1">
-                            Carrinho
-                        </span>
-                        <span class="nav-cart-count mr-1">
-                            <strong>{{ request.session.carrinho|cart_total_qtd }}x</strong>
-                        </span>
-                        <span class="nav-cart-icon mr-2">
-                            <i class="fas fa-shopping-cart"></i>
-                        </span>
-                    </a>
-                </li>
-            {% endif %}
-
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
