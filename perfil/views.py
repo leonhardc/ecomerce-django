@@ -16,17 +16,16 @@ from pprint import pprint
 # Código do arquivo
 
 class BasePerfil(View):
-
     template_name = 'perfil/login-signup.html'
 
-    def setup(self, *args, **kwargs): # Início do setup()
+    def setup(self, *args, **kwargs):  # Início do setup()
         """ Indica funcionamento básico das variáveis de instância das classes filhas """
         super().setup(*args, **kwargs)
-        
+
         self.carrinho = copy.deepcopy(self.request.session.get('carrinho', {}))
         self.perfil = None
 
-        if self.request.user.is_authenticated: # Para usuário autenticado
+        if self.request.user.is_authenticated:  # Para usuário autenticado
             # 1. Muda template_name para o template de criar ou atualizar um perfil
             self.template_name = 'perfil/criar.html'
 
@@ -44,10 +43,10 @@ class BasePerfil(View):
                 ),
                 'perfilform': forms.PerfilForm(
                     data=self.request.POST or None,
-                    instance = self.perfil
+                    instance=self.perfil
                 )
             }
-        else: # Para usuário não autenticado
+        else:  # Para usuário não autenticado
             # Formata contexto para usuário não autenticado
             self.contexto = {
                 'userform': forms.UserForm(data=self.request.POST or None),
@@ -63,11 +62,13 @@ class BasePerfil(View):
             self.template_name,
             self.contexto
         )
+
     # Final do setup()
 
     def get(self, *args, **kwargs):
         """ Retorna template correto já renderizado """
         return self.renderizar
+
 
 class Criar(BasePerfil):
     def post(self, *args, **kwargs):
@@ -105,7 +106,7 @@ class Criar(BasePerfil):
             if not self.perfil:
                 pprint(self.perfilform.cleaned_data)
                 perfil = models.Perfil(**self.perfilform.cleaned_data)
-                perfil.usuario=usuario
+                perfil.usuario = usuario
                 perfil.save()
 
             else:
@@ -130,13 +131,14 @@ class Criar(BasePerfil):
 
         return redirect('perfil:detalheperfil')
 
+
 class CriarUsuario(View):
     def post(self, *args, **kwargs):
         novo_usuario = self.request.POST.get('newuser')
         email = self.request.POST.get('email')
         senha = self.request.POST.get('pswd')
-
-        pprint(self.request.POST) #TODO: Apagar esta linha
+        self.carrinho = copy.deepcopy(self.request.session.get('carrinho'), {})
+        self.request.session.save()
 
         # Verificar se o usuário já está cadastrado
         if User.objects.filter(username=novo_usuario):
@@ -170,9 +172,10 @@ class CriarUsuario(View):
             )
         return render(self.request, 'perfil/cadastro_ou_pagprincipal.html')
 
+
 class ValidarUsuario(BasePerfil):
     def post(self, *args, **kwargs):
-        if not self.userform.is_valid(): # Se o formulário é válido
+        if not self.userform.is_valid():  # Se o formulário é válido
 
             username = self.userform.cleaned_data.get('username')
             password = self.userform.cleaned_data.get('password')
@@ -193,16 +196,18 @@ class ValidarUsuario(BasePerfil):
                 usuario.last_name = last_name
                 usuario.save()
 
-        else: # Se o formulário de usuário não for válido
+        else:  # Se o formulário de usuário não for válido
             messages.error(
                 self.request,
                 'Formulario Invalido'
             )
             return self.renderizar
 
+
 class Atualizar(View):
     def get(self, *args, **kwargs):
         return redirect('perfil:criar')
+
 
 class Login(View):
     def post(self, *args, **kwargs):
@@ -232,14 +237,16 @@ class Login(View):
             )
             return redirect('produto:lista')
 
+
 class Logout(View):
     def get(self, *args, **kwargs):
         carrinho = copy.deepcopy(self.request.session.get('carrinho'))
         self.request.session['carrinho'] = carrinho
-        self.request.session.save() # Salvando carrinho na sessão para que não perdamos ele ao fazer
-                                    # logout
+        self.request.session.save()  # Salvando carrinho na sessão para que não perdamos ele ao fazer
+        # logout
         logout(self.request)
         return redirect('produto:lista')
+
 
 class DetalhePerfil(ListView):
     """
@@ -250,23 +257,23 @@ class DetalhePerfil(ListView):
     template_name = 'perfil/detalhe.html'
     context_object_name = 'perfil'
 
-def deletar_usuario(request):
-    if request.user.is_authenticated:
-        user = User.objects.filter(username=request.user)
-        user.delete()
-        messages.success(
-            request,
-            'Usuário deletado com sucesso'
-        )
-        return redirect('produto:lista')
-    else:
-        messages.error(
-            request,
-            'Usuário não existe'
-        )
-        return redirect('produto:lista')
 
+class DeletarUsuário(View):
+    def get(self, *args, **kwargs):
 
-
-
-
+        if self.request.user.is_authenticated:
+            user = User.objects.filter(username=self.request.user)
+            self.request.session.get('carrinho').clear()
+            self.request.session.save()
+            user.delete()
+            messages.success(
+                self.request,
+                'Usuário deletado com sucesso'
+            )
+            return redirect('produto:lista')
+        else:
+            messages.error(
+                self.request,
+                'Usuário não existe'
+            )
+            return redirect('produto:lista')
