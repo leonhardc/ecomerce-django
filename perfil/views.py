@@ -1,19 +1,12 @@
-# Importações
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.views.generic.list import ListView
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from django.views.generic.list import ListView
 from . import models, forms
 import copy
-# TODO: APAGAR IMPORTAÇÕES NÃO USADAS
-from django.http import HttpResponse
-from django.contrib import auth
-from pprint import pprint
-
-
-# Código do arquivo
 
 class BasePerfil(View):
     template_name = 'perfil/login-signup.html'
@@ -104,7 +97,6 @@ class Criar(BasePerfil):
 
             # Validação para perfil
             if not self.perfil:
-                pprint(self.perfilform.cleaned_data)
                 perfil = models.Perfil(**self.perfilform.cleaned_data)
                 perfil.usuario = usuario
                 perfil.save()
@@ -204,11 +196,6 @@ class ValidarUsuario(BasePerfil):
             return self.renderizar
 
 
-class Atualizar(View):
-    def get(self, *args, **kwargs):
-        return redirect('perfil:criar')
-
-
 class Login(View):
     def post(self, *args, **kwargs):
         usuario = self.request.POST.get('usuario')
@@ -248,17 +235,31 @@ class Logout(View):
         return redirect('produto:lista')
 
 
+class Atualizar(View):
+    def get(self, *args, **kwargs):
+        return redirect('perfil:criar')
+
+
 class DetalhePerfil(ListView):
     """
         Detalha os dados do perfil do usuário
     """
-    # TODO: IMPLEMENTAR ESSA VIEW
     model = models.Perfil
     template_name = 'perfil/detalhe.html'
     context_object_name = 'perfil'
 
+    # @login_required(redirect_field_name='login')
+    # def get(self, *args, **kwargs):
+    #
+    #     return render(
+    #         self.request,
+    #         template_name=self.template_name,
+    #         context={'perfil': models.Perfil}
+    #     )
+
 
 class DeletarUsuário(View):
+    @login_required(redirect_field_name='login')
     def get(self, *args, **kwargs):
 
         if self.request.user.is_authenticated:
