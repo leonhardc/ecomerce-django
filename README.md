@@ -52,13 +52,11 @@ pip install -r requirements.txt
 
 Vamos lá, só mais um pouco para chegarmos onde queremos. Depois de todos os passos anteriores e lembrando, com o ambiente virtual ativado, só precisamos rodar o servidor nativo do django, para que ele cuide das nossas requisições e faça a aplicação, de fato, ser executada. 
 
-Execute no seu terminal o comando:
+Execute no seu terminal o comando para que possamos ativar o servidor django:
 
 ```
 python manage.py runserver
 ```
-
-Para que possamos ativar o servidor django. 
 
 Depois de alguns momentos, se todos os passos anteriores foram executados corretamente, podemos ver na tela do terminal algo como:
 
@@ -75,6 +73,9 @@ Quit the server with CTRL-BREAK.
 ```
 
 Se a mensagem acima foi exibida, então você pode acessar e ver a aplicação em execução digitando na barra de endereço do seu navegador o IP `http://127.0.0.1:8000/`
+
+
+Como o projeto, a início não usa de base de dados mais robustas, fique a vontade para fazer seu cadastro, entrar entrar e bricar um pouco no pouco que já foi implementado.
 
 ## Referências
 
