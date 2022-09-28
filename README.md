@@ -78,9 +78,9 @@ Se a mensagem acima foi exibida, então você pode acessar e ver a aplicação e
 
 ## Referências
 
-* ![Documentação Django](https://docs.djangoproject.com/pt-br/4.1/)
-* ![Bootstrap](https://getbootstrap.com/)
-* ![Certificação de Web Design Responsivo - Free Code Camp](https://www.freecodecamp.org/learn/2022/responsive-web-design/)
+* [Documentação Django](https://docs.djangoproject.com/pt-br/4.1/)
+* [Bootstrap](https://getbootstrap.com/)
+* [Certificação de Web Design Responsivo - Free Code Camp](https://www.freecodecamp.org/learn/2022/responsive-web-design/)
 
 
 
