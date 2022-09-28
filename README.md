@@ -25,12 +25,16 @@ Este projeto foi desenvolvido utilizando as seguintes ferramentas:
 ### Clonando o Repositório
 Primeiramente você precisa fazer o clone do repositório utilizando o comando abaixo:
 
-`git clone https://github.com/leonhardc/e-comerce_Django.git`
+```
+git clone https://github.com/leonhardc/e-comerce_Django.git
+```
 
 ### Criando e instalando o ambiente virual
 O projeto inteiro está sendo desenvolvido usando ambientes virtuais, se ainda não sabe ou não lembra como instalar um ambiente virtual python na sua máquina, basta executar o comando abaixo no seu terminal:
 
-`python -m venv venv`
+```
+python -m venv venv
+```
 
 Depois de instalado, basta digitar `venv\Scrips\activate` no terminal do seu Windows, ou `source bin/activate` no linux.
 
@@ -40,7 +44,9 @@ Depois que o projeto foi clonado e seu ambiente virtual está devidamente instal
 
 Para instalar as dependencias do projeto, basta o comando abaixo no terminal:
 
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 ### Executando e testando o projeto
 
@@ -48,7 +54,9 @@ Vamos lá, só mais um pouco para chegarmos onde queremos. Depois de todos os pa
 
 Execute no seu terminal o comando:
 
-`python manage.py runserver`
+```
+python manage.py runserver
+```
 
 Para que possamos ativar o servidor django. 
 
@@ -70,9 +78,9 @@ Se a mensagem acima foi exibida, então você pode acessar e ver a aplicação e
 
 ## Referências
 
-* [Documentação Django] (https://docs.djangoproject.com/pt-br/4.1/)
-* [Bootstrap] (https://getbootstrap.com/)
-* [Certificação de Web Design Responsivo - Free Code Camp] (https://www.freecodecamp.org/learn/2022/responsive-web-design/)
+* ![Documentação Django](https://docs.djangoproject.com/pt-br/4.1/)
+* ![Bootstrap](https://getbootstrap.com/)
+* ![Certificação de Web Design Responsivo - Free Code Camp](https://www.freecodecamp.org/learn/2022/responsive-web-design/)
 
 
 
