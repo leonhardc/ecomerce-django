@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -12,7 +13,10 @@ class BasePerfil(View):
     template_name = 'perfil/login-signup.html'
 
     def setup(self, *args, **kwargs):  # Início do setup()
-        """ Indica funcionamento básico das variáveis de instância das classes filhas """
+        """ 
+            Indica funcionamento básico das variáveis de instância das classes filhas que manipulam
+            o perfil de usuário    
+        """
         super().setup(*args, **kwargs)
 
         self.carrinho = copy.deepcopy(self.request.session.get('carrinho', {}))
@@ -61,9 +65,13 @@ class BasePerfil(View):
     def get(self, *args, **kwargs):
         """ Retorna template correto já renderizado """
         return self.renderizar
+        
 
 
 class Criar(BasePerfil):
+    """
+        Classe responsável pela criação do perfil de usuário
+    """
     def post(self, *args, **kwargs):
 
         # Validação para formulário de usuário
@@ -197,6 +205,9 @@ class ValidarUsuario(BasePerfil):
 
 
 class Login(View):
+
+    template_login="perfil/login-signup.html"
+
     def post(self, *args, **kwargs):
         usuario = self.request.POST.get('usuario')
         senha = self.request.POST.get('senha')
@@ -223,6 +234,12 @@ class Login(View):
                 'Login efetuado com sucesso'
             )
             return redirect('produto:lista')
+        else:
+            messages.error(
+                self.request,
+                'Usuário ou senha inválidos'
+            )
+            return render(self.request, self.template_login)
 
 
 class Logout(View):
@@ -278,3 +295,42 @@ class DeletarUsuário(View):
                 'Usuário não existe'
             )
             return redirect('produto:lista')
+
+class AtualizarSenha(View):
+    
+    template_atualizar_senha="perfil/atualizar_senha.html"
+    template_login="perfil/login-signup.html"
+
+    def post(self, *args, **kwargs):
+        nova_senha = self.request.POST.get('password')
+        nova_senha_confirm = self.request.POST.get('password-confirm')
+        user = User.objects.get(username=self.request.user.username)
+
+        if len(nova_senha) < 6:
+            messages.error(
+                self.request,
+                'Senha precisar ter, pelo menos, seis caracteres'
+            )
+            return render(self.request, self.template_atualizar_senha)
+
+        if nova_senha != nova_senha_confirm:
+            messages.error(
+                self.request,
+                'As senhas precisam ser iguais'
+            )
+            return render(self.request, self.template_atualizar_senha)
+
+        user.set_password(nova_senha)
+        user.save()
+        messages.success(
+            self.request,
+            'Senha Alterada com sucesso. Faça Login novamente.'
+        )
+        return render(self.request, self.template_login)
+
+    def get(self, *args, **kwargs):   
+             
+        return render(
+            self.request,
+            self.template_atualizar_senha
+        )
