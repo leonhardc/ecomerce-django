@@ -207,6 +207,9 @@ class ValidarUsuario(BasePerfil):
 class Login(View):
 
     template_login="perfil/login-signup.html"
+    def get(self, *args, **kwargs):
+        return redirect('perfil:criar')
+
 
     def post(self, *args, **kwargs):
         usuario = self.request.POST.get('usuario')
@@ -305,6 +308,7 @@ class AtualizarSenha(View):
         nova_senha = self.request.POST.get('password')
         nova_senha_confirm = self.request.POST.get('password-confirm')
         user = User.objects.get(username=self.request.user.username)
+
 
         if len(nova_senha) < 6:
             messages.error(
