@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load omfilters %}
 
 {% block content %}
 
@@ -9,7 +9,7 @@
         <h2>Resumo da sua compra</h2>
 
         <p class="lead">Dados do usuário</p>
-        <p>Caso precise editar, <a href="/userprofile/update/">clique aqui</a></p>
+        <p>Caso precise editar, <a href="{% url 'perfil:atualizar' %}">clique aqui</a></p>
         <dl class="row">
             <dt class="col-lg-2">Nome:</dt>
             <dd class="col-lg-4">{{ usuario.first_name }}</dd>
@@ -22,13 +22,12 @@
             <dd class="col-lg-4">{{ usuario.perfil.data_nascimento }}</dd>
 
             <dt class="col-lg-2">CPF:</dt>
-            <dd class="col-lg-4">{{ <usuario class="perfil cpf"></usuario> }}</dd>
+            <dd class="col-lg-4">{{ usuario.perfil.cpf|formata_cpf }}</dd>
             <dt class="col-lg-2">E-mail:</dt>
             <dd class="col-lg-4">{{ usuario.email }}</dd>
         </dl>
 
         <p class="lead">Dados de endereço</p>
-        <p>Caso precise editar, <a href="#">clique aqui</a></p>
         <dl class="row">
             <dt class="col-lg-2">Endereço:</dt>
             <dd class="col-lg-4">{{ usuario.perfil.endereco }}</dd>
@@ -46,7 +45,7 @@
             <dd class="col-lg-4">{{ usuario.perfil.estado }}</dd>
 
             <dt class="col-lg-2">CEP:</dt>
-            <dd class="col-lg-4">{{ usuario.perfil.cep }}</dd>
+            <dd class="col-lg-4">{{ usuario.perfil.cep|formata_cep }}</dd>
         </dl>
     </div>
 </div>
@@ -57,40 +56,22 @@
         <h3>Carrinho de compras</h3>
         <p class="lead">Os produtos, quantidades e preços que você escolheu.</p>
 
-        <div class="table-responsive">
-            <table class="table">
-                <tr>
-                    <th class="d-none d-lg-block">Imagem</th>
-                    <th>Produto</th>
-                    <th>AT.</th>
-                    <th>QTD.</th>
-                    <th>Total</th>
-                </tr>
+        {% include 'parciais/_carrinho.html' %}
 
-                <tr>
-                    <td class="d-none d-lg-block">
-                        <img class="img-thumbnail img-fluid" style="width:150px; height: auto;"
-                             src="imgs/7eb9d706-b8e3-48d0-957e-25f4a722f944.jpg">
-                    </td>
-                    <td>
-                        Camiseta Redbug Super Natural Bros
-                        <a class="ml-3" href="#">
-                            <i class="fas fa-times-circle text-danger" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                    <td>P</td>
-                    <td>1 x 39,9</td>
-                    <td>R$ 39,90</td>
-                </tr>
-
-            </table>
-        </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col">
-        <a class="btn btn-block btn-primary btn-lg" href="#">
+        <p class="lead text-right" style="font-size: 30px;"><span class="font-weight-bold">Total do Carrinho:</span>
+             {{carrinho|cart_totals|formata_preco}}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <a class="btn btn-block btn-primary btn-lg" href="{% url 'pedido:pagar' %}">
             Realizar pedido e pagar
         </a>
     </div>
