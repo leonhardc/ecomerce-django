@@ -5,7 +5,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
 from .models import Produto, Variacao
-from pprint import pprint # TODO: APAGAR ESTA LINHA
+from perfil.models import Perfil
 
 
 class ListaProdutos(ListView):
@@ -193,14 +193,33 @@ class Carrinho(View):
 
 class ResumoDaCompra(View):
 
-    # TODO: IMPLEMENTAR VIEW RESUMODACOMPRA()
+    template_name = 'produto/resumo.html'
 
     def get(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
             return redirect('perfil:criar')
 
+        perfil = Perfil.objects.filter(usuario=self.request.user).exists()
+        
+        # Finalizar compra somente se o usuário tiver perfil
+        if not perfil: 
+            messages.error(
+                self.request, 
+                "Usuário não tem perfil. Por favor termine seu cadastro antes de finalizar a compra."
+                )
+            return redirect('perfil:criar')
+
+        # Finalizar compra somente se haver produtos no carrinho
+        if not self.request.session.get('carrinho'):
+            messages.error(
+                self.request, 
+                "Não há produtos no seu carrinho."
+                )
+            return redirect('produto:lista')            
+
         contexto = {
             'usuario': self.request.user,
             'carrinho': self.request.session['carrinho']
         }
-        return HttpResponse('produto/resumo.html')
+        
+        return render(self.request, self.template_name, context=contexto)
