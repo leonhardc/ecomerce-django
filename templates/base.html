@@ -9,7 +9,11 @@
 <body>
     {% include 'parciais/_nav.html' %}
     <main class="container mt-4 mb-4">
-        {% include 'parciais/_messages.html' %}
+        <div class="d-flex justify-content-center mb-4">
+            <div style="min-width:600px">
+                {% include 'parciais/_messages.html' %}
+            </div>
+        </div>        
         {% block content %}{% endblock %}
     </main>
     {% include 'parciais/_footer.html' %}
