@@ -1,3 +1,4 @@
+from email import message
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -309,21 +310,28 @@ class AtualizarSenha(View):
         nova_senha_confirm = self.request.POST.get('password-confirm')
         user = User.objects.get(username=self.request.user.username)
 
-
+        # REQUISITO: A senha deve ter mais que 6 caracteres
         if len(nova_senha) < 6:
             messages.error(
                 self.request,
                 'Senha precisar ter, pelo menos, seis caracteres'
             )
             return render(self.request, self.template_atualizar_senha)
-
+        # REQUISITO: O conteudo do campo senha, deve ser o mesmo do campo de confirmação de senha
         if nova_senha != nova_senha_confirm:
             messages.error(
                 self.request,
                 'As senhas precisam ser iguais'
             )
             return render(self.request, self.template_atualizar_senha)
-
+        # REQUISITO: A nova senha deve ser diferente da senha antiga
+        if user.check_password(nova_senha):
+            messages.error(
+                self.request,
+                'A nova senha deve ser diferente da senha antiga.'
+            )
+            return render(self.request, self.template_atualizar_senha)
+        # REQUISITO: Nova senha deve conter letrar e numeros
         user.set_password(nova_senha)
         user.save()
         messages.success(
