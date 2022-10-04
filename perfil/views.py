@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views import View
 from . import models, forms
+import re
 import copy
 
 class BasePerfil(View):
@@ -68,10 +69,9 @@ class BasePerfil(View):
         return self.renderizar
         
 
-
 class Criar(BasePerfil):
     """
-        Classe responsável pela criação do perfil de usuário
+        Cria perfil de usuário
     """
     def post(self, *args, **kwargs):
 
@@ -134,6 +134,9 @@ class Criar(BasePerfil):
 
 
 class CriarUsuario(View):
+
+    template_name = 'perfil/cadastro_ou_pagprincipal.html'
+
     def post(self, *args, **kwargs):
         novo_usuario = self.request.POST.get('newuser')
         email = self.request.POST.get('email')
@@ -171,7 +174,7 @@ class CriarUsuario(View):
                 self.request,
                 autentica
             )
-        return render(self.request, 'perfil/cadastro_ou_pagprincipal.html')
+        return render(self.request, self.template_name)
 
 
 class ValidarUsuario(BasePerfil):
@@ -206,6 +209,9 @@ class ValidarUsuario(BasePerfil):
 
 
 class Login(View):
+    """
+        Autentica e faz login
+    """
 
     template_login="perfil/login-signup.html"
     def get(self, *args, **kwargs):
@@ -247,6 +253,9 @@ class Login(View):
 
 
 class Logout(View):
+    """
+        Faz logout e salva o carrinho de compras.
+    """
     def get(self, *args, **kwargs):
         carrinho = copy.deepcopy(self.request.session.get('carrinho'))
         self.request.session['carrinho'] = carrinho
@@ -257,6 +266,9 @@ class Logout(View):
 
 
 class Atualizar(View):
+    """
+        Atualizar dados de usuário/perfil.
+    """
     def get(self, *args, **kwargs):
         return redirect('perfil:criar')
 
@@ -269,17 +281,12 @@ class DetalhePerfil(ListView):
     template_name = 'perfil/detalhe.html'
     context_object_name = 'perfil'
 
-    # @login_required(redirect_field_name='login')
-    # def get(self, *args, **kwargs):
-    #
-    #     return render(
-    #         self.request,
-    #         template_name=self.template_name,
-    #         context={'perfil': models.Perfil}
-    #     )
-
 
 class DeletarUsuário(View):
+    """
+        Esta view deleta o usuário logado.
+    """
+
     @login_required(redirect_field_name='login')
     def get(self, *args, **kwargs):
 
@@ -300,8 +307,17 @@ class DeletarUsuário(View):
             )
             return redirect('produto:lista')
 
+
 class AtualizarSenha(View):
-    
+    """
+        Esta view verifica e valida a nova senha de usuário com base
+        em quatro requisitos:
+            1. A nova senha deve ter um tamanho mínimo de 6 caracteres;
+            2. A nova senha deve ser confirmada duas vezes;
+            3. A nova senha deve ser diferente da senha antiga;
+            4. A nova senha deve ter numeros e letras (minusculas);
+        Se todos os requisitos forem satisfeitos, a senha será atualizada.
+    """
     template_atualizar_senha="perfil/atualizar_senha.html"
     template_login="perfil/login-signup.html"
 
@@ -332,6 +348,13 @@ class AtualizarSenha(View):
             )
             return render(self.request, self.template_atualizar_senha)
         # REQUISITO: Nova senha deve conter letrar e numeros
+        if (not re.search(r'[0-9]', nova_senha)) or (not re.search(r'[a-z]', nova_senha)):
+            messages.error(
+                self.request,
+                'A senha deve conter letras e numeros.'
+            )
+            return render(self.request, self.template_atualizar_senha)
+        
         user.set_password(nova_senha)
         user.save()
         messages.success(
