@@ -1,4 +1,5 @@
 from django import forms
+from utils.validacpf import valida_cpf
 from . import models
 from django.contrib.auth.models import User
 
@@ -12,6 +13,18 @@ class PerfilForm(forms.ModelForm):
         # exclude: Campos que serão excluídos do formulário que iremos criar, nesse caso,
         # somente o campo 'username'
         exclude = ('usuario',)
+    
+    def clean(self):
+        cpf = self.cleaned_data['cpf']
+
+        if not valida_cpf(cpf):
+            print("Entrou")
+            raise forms.ValidationError('Cpf Inválido')
+        
+        return cpf
+
+
+
 
 class UserForm(forms.ModelForm):
     # O atributo abaixo faz com que não exibamos no formulário, se o usuário estiver logado
@@ -36,8 +49,6 @@ class UserForm(forms.ModelForm):
         data = self.data
         cleaned = self.cleaned_data
         validation_error_messages = {}
-
-        print(data)
 
         user_data = cleaned.get('username')                     # Usuário da aplicação
         email_data = cleaned.get('email')                       # Email da aplicação

@@ -114,6 +114,7 @@ class Criar(BasePerfil):
                 perfil = self.perfilform.save(commit=False)
                 perfil.usuario = usuario
                 perfil.save()
+                
 
         # Salva o carrinho na sessão
         self.request.session['carrinho'] = self.carrinho
