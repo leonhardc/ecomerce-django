@@ -11,6 +11,24 @@ from . import models, forms
 import re
 import copy
 
+
+"""
+
+    CLASSES QUE DEVEM SER CRIADAS:
+        1. Classes de manipulação de usuário
+            - Criar Usuário
+            - Criar Perfil de Usuário
+            - Atualizar dados de Usuário
+            - Atualizar dados de Perfil
+            - Deletar Usuário/Perfil 
+    - Login
+    - Logout
+
+
+"""
+
+
+
 class BasePerfil(View):
     template_name = 'perfil/login-signup.html'
 
@@ -177,36 +195,36 @@ class CriarUsuario(View):
             )
         return render(self.request, self.template_name)
 
+# TODO: EXCLUIR O CODIGO ABAIXO:
+# class ValidarUsuario(BasePerfil):
+#     def post(self, *args, **kwargs):
+#         if not self.userform.is_valid():  # Se o formulário é válido
 
-class ValidarUsuario(BasePerfil):
-    def post(self, *args, **kwargs):
-        if not self.userform.is_valid():  # Se o formulário é válido
+#             username = self.userform.cleaned_data.get('username')
+#             password = self.userform.cleaned_data.get('password')
+#             email = self.userform.cleaned_data.get('email')
+#             first_name = self.userform.cleaned_data.get('first_name')
+#             last_name = self.userform.cleaned_data.get('last_name')
 
-            username = self.userform.cleaned_data.get('username')
-            password = self.userform.cleaned_data.get('password')
-            email = self.userform.cleaned_data.get('email')
-            first_name = self.userform.cleaned_data.get('first_name')
-            last_name = self.userform.cleaned_data.get('last_name')
+#             if self.request.user.is_authenticated:
+#                 usuario = get_object_or_404(
+#                     User,
+#                     username=self.request.user.username
+#                 )
 
-            if self.request.user.is_authenticated:
-                usuario = get_object_or_404(
-                    User,
-                    username=self.request.user.username
-                )
+#                 usuario.username = username
 
-                usuario.username = username
+#                 usuario.email = email
+#                 usuario.first_name = first_name
+#                 usuario.last_name = last_name
+#                 usuario.save()
 
-                usuario.email = email
-                usuario.first_name = first_name
-                usuario.last_name = last_name
-                usuario.save()
-
-        else:  # Se o formulário de usuário não for válido
-            messages.error(
-                self.request,
-                'Formulario Invalido'
-            )
-            return self.renderizar
+#         else:  # Se o formulário de usuário não for válido
+#             messages.error(
+#                 self.request,
+#                 'Formulario Invalido'
+#             )
+#             return self.renderizar
 
 
 class Login(View):
@@ -270,9 +288,37 @@ class Atualizar(View):
     """
         Atualizar dados de usuário/perfil.
     """
+    template_name = "perfil/atualizar.html"
+    
     def get(self, *args, **kwargs):
-        return redirect('perfil:criar')
+        perfil = models.Perfil.objects.filter(usuario = self.request.user).first()
+        
+        if perfil:
+            contexto = {
+                'userform': forms.UserForm(
+                    data=self.request.POST or None,
+                    usuario=self.request.user,
+                    instance=self.request.user
+                ),
+                'perfilform': forms.PerfilForm(
+                    instance=perfil
+                )
+            }
+        else:
+            contexto = {
+                'userform': forms.UserForm(
+                    data=self.request.POST or None,
+                    usuario=self.request.user,
+                    instance=self.request.user
+                ),
+                'perfilform': forms.PerfilForm(
+                )
+            }
+        return render(self.request, self.template_name, contexto)
 
+    def post(self, *args, **kwargs):
+        # deve salvar os dados de usuario#
+        pass
 
 class DetalhePerfil(ListView):
     """
