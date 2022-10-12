@@ -1,4 +1,3 @@
-from email import message
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -8,8 +7,14 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views import View
 from . import models, forms
+from datetime import datetime
+from utils.utils import valida_cpf, calcula_idade
 import re
 import copy
+
+
+#TODO: APAGAR LINHAS ABAIXO
+from pprint import pprint
 
 
 """
@@ -288,37 +293,128 @@ class Atualizar(View):
     """
         Atualizar dados de usuário/perfil.
     """
-    template_name = "perfil/atualizar.html"
-    
+    def __init__(self) -> None:        
+        self.template_name = "perfil/atualizar.html"
+        self.contexto = {}
+
+
     def get(self, *args, **kwargs):
+        """
+            Resgata da base de dados e carrega os dados do usuário e do perfil no formulario.
+            Se não houver dados no perfil, só será carregados dados de usuário.        """
         perfil = models.Perfil.objects.filter(usuario = self.request.user).first()
-        
         if perfil:
-            contexto = {
-                'userform': forms.UserForm(
-                    data=self.request.POST or None,
-                    usuario=self.request.user,
-                    instance=self.request.user
-                ),
-                'perfilform': forms.PerfilForm(
-                    instance=perfil
-                )
-            }
+                self.contexto = {
+                    'userform': forms.UserForm(
+                        data=self.request.POST or None,
+                        usuario=self.request.user,
+                        instance=self.request.user
+                    ),
+                    'perfilform': forms.PerfilForm(
+                        instance=perfil
+                    )
+                }
         else:
-            contexto = {
-                'userform': forms.UserForm(
-                    data=self.request.POST or None,
-                    usuario=self.request.user,
-                    instance=self.request.user
-                ),
-                'perfilform': forms.PerfilForm(
-                )
-            }
-        return render(self.request, self.template_name, contexto)
+            self.contexto = {
+            'userform': forms.UserForm(
+                data=self.request.POST or None,
+                usuario=self.request.user,
+                instance=self.request.user
+            ),
+            'perfilform': forms.PerfilForm()
+        }
+
+
+        return render(self.request, self.template_name, self.contexto)
 
     def post(self, *args, **kwargs):
-        # deve salvar os dados de usuario#
-        pass
+        """
+            Resgada os dados dos formulario de Usuário e de Perfil e salva na base de dados.
+        """
+        # Atualizando dados de usuário. 
+        user = User.objects.get(username = self.request.user)        
+        perfil = models.Perfil.objects.filter(usuario = self.request.user).first()
+        if perfil:
+                self.contexto = {
+                    'userform': forms.UserForm(
+                        data=self.request.POST or None,
+                        usuario=self.request.user,
+                        instance=self.request.user
+                    ),
+                    'perfilform': forms.PerfilForm(
+                        instance=perfil
+                    )
+                }
+        else:
+            self.contexto = {
+            'userform': forms.UserForm(
+                data=self.request.POST or None,
+                usuario=self.request.user,
+                instance=self.request.user
+            ),
+            'perfilform': forms.PerfilForm()
+        }
+
+
+        # Resgatando dados do formulario de usuário
+        pprint(self.request.POST)
+        usuario = self.request.POST.get('username')
+        email = self.request.POST.get('email')
+        nome = self.request.POST.get('first_name')
+        sobrenome = self.request.POST.get('last_name')
+
+        # Salvando dados de usuário no banco de dados
+        # Verficação da existencia do usuário no banco de dados
+        query_user = User.objects.get(username = usuario)
+        if usuario != user.username and query_user:
+               
+            messages.error(
+                self.request,
+                'Usuário já existe'
+            )
+            return render(
+                self.request,
+                template_name=self.template_name,
+                context=self.contexto
+            )
+        else:
+            # salvar novo username e relogar o usuário
+            pass
+
+        user.email = email
+        user.first_name = nome
+        user.last_name = sobrenome
+        user.save()
+        
+        # Salvando dados de perfil
+        # Resgatando dados do formulario
+        bairro = self.request.POST.get('bairro')
+        cep = self.request.POST.get('cep')
+        cidade = self.request.POST.get('cidade')
+        complemento = self.request.POST.get('complemento')
+        cpf = self.request.POST.get('cpf')
+        data_nascimento = self.request.POST.get('data_nascimento')
+        endereco = self.request.POST.get('endereco')
+        estado = self.request.POST.get('estado')
+        idade = self.request.POST.get('idade')
+        numero = self.request.POST.get('numero')    
+
+        if not valida_cpf(cpf):
+            messages.error(
+                self.request,
+                'CPF inválido'
+            )
+            return render(self.request, self.template_name, self.contexto)
+
+        idade_log = calcula_idade(datetime.strptime(data_nascimento, "%d/%m/%Y").date())
+        if int(idade) != idade_log:
+            idade = idade_log
+
+        #TODO: FAZER VALIDAÇÃO DOS OUTROS CAMPOS
+
+
+        messages.success(self.request, 'Usuário salvo com sucesso')
+        return redirect( 'produto:lista')
 
 class DetalhePerfil(ListView):
     """
