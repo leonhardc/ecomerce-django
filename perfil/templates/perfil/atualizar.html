@@ -1,15 +1,41 @@
-{% extends 'perfil/criar.html' %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
 
-    {% block titulo_da_pagina %}
-        <h4>Atualizar Cadastro</h4>
-        <p>
-            Atualize seus dados utilizando o formulário a seguir
-        </p>
+<div class="row">
+
+    <div class="col-lg mt-3">
+        {% block titulo_da_pagina %}
+        <h3 style="text-align:center">Cadastro de Usuário</h3> <br> <br>
+        {% endblock %}
+
+        <div>
+            <form method="POST" action="" style="display:block;
+            width:60%;
+            margin:0 auto 0 auto;">
+                {% csrf_token %}
+                {{ userform|crispy }}
+                {{ perfilform|crispy }}
+
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg" style="max-width:40% ;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
     {% endblock %}
-
-
-
-{% endblock %}
