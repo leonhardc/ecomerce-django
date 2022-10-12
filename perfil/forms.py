@@ -66,56 +66,62 @@ class UserForm(forms.ModelForm):
                 validation_error_messages
             ))
 
-# class PasswordForm(forms.ModelForm):
+class PasswordForm(forms.ModelForm):
+        
+    # Senha
+    password = forms.CharField(
+        required=False,
+        widget=forms.PasswordInput(),
+        label='Senha'
+    )
+    # Confirmação da senha
+    password_confirm = forms.CharField(
+        required=False,
+        widget=forms.PasswordInput(),
+        label='Confirmar Senha'
+    )
 
-#     class Meta:
-#         model = User
-#         fields = (
-#             'password',
-#             'password_confirm',
-#         )
+    class Meta:
+        model = User
+        fields = (
+            'password',
+            'password_confirm',
+        )
 
-#     def __init__(self, usuario=None, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         # Se o usuário estiver logado, saberemos que usuário enviou este formulário
-#         self.usuario = usuario
+    def __init__(self, usuario=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Se o usuário estiver logado, saberemos que usuário enviou este formulário
+        self.usuario = usuario
 
-#     def clean(self, *args, **kwargs):
+    def clean(self, *args, **kwargs):
 
-#         data = self.data
-#         validation_error_messages = {}
+        data = self.data
+        validation_error_messages = {}
 
-#         # Mensagens de erro
-#         error_msg_password_short = 'A senha digitada precisa ser igual ou maior que 6 caracteres.'
-#         error_msg_required_field = 'Este campo é obrigatório.'
-#         error_msg_password_not_match = 'As senhas digitadas não são iguais.'
+        # Mensagens de erro
+        error_msg_password_short = 'A senha digitada precisa ser igual ou maior que 6 caracteres.'
+        error_msg_required_field = 'Este campo é obrigatório.'
+        error_msg_password_not_match = 'As senhas digitadas não são iguais.'
 
-#         # Senha
-#         password = forms.CharField(
-#             required=False,
-#             widget=forms.PasswordInput(),
-#             label='Senha'
-#         )
-#         # Confirmação da senha
-#         password_confirm = forms.CharField(
-#             required=False,
-#             widget=forms.PasswordInput(),
-#             label='Confirmar Senha'
-#         )
+        password_data = data.get('password')  # Senha da aplicação
+        password_confirm_data = data.get('password_confirm')  # Senha de confirmação da aplicação
 
-#         password_data = data.get('password')  # Senha da aplicação
-#         password_confirm_data = data.get('password_confirm')  # Senha de confirmação da aplicação
+        if not password_data:
+            validation_error_messages['password'] = error_msg_required_field
+        
+        if not password_confirm_data:
+            validation_error_messages['password_confirm'] = error_msg_required_field
 
-#         # Verificação de senhas
-#         if len(password_data) < 6:
-#             validation_error_messages['password'] = error_msg_password_short
+        # Verificação de senhas
+        if len(password_data) < 6:
+            validation_error_messages['password'] = error_msg_password_short
 
-#         if password_data != password_confirm_data:
-#             validation_error_messages['password_confirm'] = error_msg_password_not_match
+        if password_data != password_confirm_data:
+            validation_error_messages['password_confirm'] = error_msg_password_not_match
 
-#         # Se houver mensagens de erro, mostra no formulário
-#         if validation_error_messages:
-#             raise(forms.ValidationError(
-#                 validation_error_messages
-#             ))
+        # Se houver mensagens de erro, mostra no formulário
+        if validation_error_messages:
+            raise(forms.ValidationError(
+                validation_error_messages
+            ))
 

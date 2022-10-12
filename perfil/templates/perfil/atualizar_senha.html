@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <!-- Formulário para mudança de senha -->
 
@@ -8,6 +8,7 @@
     style="width: 60%; height: 100vh; margin-top: 50px;">
     {% csrf_token %}
     <div class="form-group">
+      <!-- {{ passwordform|crispy }} -->
       <label for="password">Nova Senha</label>
       <input type="password" 
              class="form-control" 
@@ -24,6 +25,7 @@
              placeholder="Confirme sua senha">
     </div>
     <div class="row d-flex justify-content-center">    
+    
     
     <button type="submit" class="btn btn-primary">
         Mudar

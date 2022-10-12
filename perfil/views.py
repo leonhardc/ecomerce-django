@@ -322,6 +322,11 @@ class AtualizarSenha(View):
     template_atualizar_senha="perfil/atualizar_senha.html"
     template_login="perfil/login-signup.html"
 
+    # def post(self, *args, **kwargs):
+    #     contexto = {'passwordform': forms.PasswordForm}
+    #     return render(self.request, self.template_atualizar_senha, contexto)
+
+
     def post(self, *args, **kwargs):
         nova_senha = self.request.POST.get('password')
         nova_senha_confirm = self.request.POST.get('password-confirm')
