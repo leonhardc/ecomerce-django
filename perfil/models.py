@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ValidationError
-from utils.validacpf import valida_cpf
+from utils.utils import valida_cpf
 import re
 
 
 class Perfil(models.Model):
 
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE) # se o usuário for apagado, o perfil 
+                                                                   # também será apagado
     idade = models.PositiveIntegerField()
     data_nascimento = models.DateField()
     cpf = models.CharField(max_length=11)
@@ -19,7 +20,7 @@ class Perfil(models.Model):
     cidade = models.CharField(max_length=30)
     estado = models.CharField(
         max_length=2,
-        default='SP',
+        default='CE',
         choices= (
             ('AC', 'Acre'),
             ('AL', 'Alagoas'),

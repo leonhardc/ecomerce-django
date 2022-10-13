@@ -13,17 +13,6 @@ class PerfilForm(forms.ModelForm):
         # exclude: Campos que serão excluídos do formulário que iremos criar, nesse caso,
         # somente o campo 'username'
         exclude = ('usuario',)
-    
-    def clean(self):
-        cpf = self.cleaned_data['cpf']
-
-        if not valida_cpf(cpf):
-            print("Entrou")
-            raise forms.ValidationError('Cpf Inválido')
-        
-        return cpf
-
-
 
 
 class UserForm(forms.ModelForm):
@@ -59,6 +48,7 @@ class UserForm(forms.ModelForm):
         # Configuração das mensagens de erro
         error_msg_user_exists = 'Usuário já existe.'
         error_msg_email_exists = 'E-mail já existe.'
+    
 
         # Se existirem erros de validação na hora do cadastro de usuário
         if validation_error_messages:
