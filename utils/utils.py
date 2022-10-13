@@ -22,21 +22,20 @@ def formata_cpf(cpf):
 def formata_cep(cep):
     return f'{cep[:5]}-{cep[5:]}'
 
-
 def valida_cpf(cpf):
+    
     cpf = str(cpf)
     cpf_list = list(cpf[:-2])
-
-    for _ in range(2): 
+    
+    for _ in range(2): # Gera os dois ultimos digitos do cpf
         range_list = list(range(len(cpf_list)+1, 1, -1))
         total = 0
-        # gerando primeiro digito
+        
         for dig, mul in zip(cpf_list, range_list):
             total += int(dig) * mul
         digito = 11-(total % 11) # usado para validar qual será o digito do cpf
-        
-        if digito > 9: # Se o valor calculado para o digito for maior que 9, 
-                        #muda o digito para 0. 
+
+        if digito > 9: # Se o valor calculado para o digito for maior que 9, muda o digito para 0.                         
             digito = 0 
         
         cpf_list.append(str(digito))
@@ -46,15 +45,13 @@ def valida_cpf(cpf):
     # Evita sequencias. Ex.: 11111111111, 00000000000...
     sequencia = novo_cpf == str(novo_cpf[0]) * len(cpf)
 
-    # Descobri que sequências avaliavam como verdadeiro, então também
-    # adicionei essa checagem aqui
+    # Sequencias geram verdadeiro, o que não é válido no nosso caso.
     if cpf == novo_cpf and not sequencia:
         # cpf válido
         return True
     else:
         # cpf invalido
         return False
-
 
 def calcula_idade(nascimento): 
     hoje = date.today() 
@@ -63,10 +60,12 @@ def calcula_idade(nascimento):
     return idade
 
 def formata_data(data):
+    # Formato da Data:Entrada: dia/mes/ano
+    # Formato da Data:Saida: ano-mes-dia
     if data:
-        list_data = data.split('/')
-        print(list_data)
-        return f'{list_data[2]}-{list_data[1]}-{list_data[0]}'
+        list_data = str.split(data, '/')
+        dia, mes, ano = list_data
+        return f'{ano}-{mes}-{dia}'
     else:
-        return '0000-01-01' 
+        return "1900-01-01"
 

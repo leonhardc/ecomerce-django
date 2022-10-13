@@ -1,18 +1,18 @@
-from pyexpat import model
-from django.http import HttpResponse
+from utils.utils import valida_cpf, calcula_idade, formata_data
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.contrib import messages
 from django.views import View
-from . import models, forms
 from datetime import datetime
-from utils.utils import valida_cpf, calcula_idade, formata_data
-import re
+from . import models, forms
 import copy
+import re
 
+# Cria usuário django com username, first_name, last_name, email, password
 class CriarUsuario(View):
 
     template_name = 'perfil/cadastro_ou_pagprincipal.html'
@@ -58,7 +58,7 @@ class CriarUsuario(View):
             )
         return render(self.request, self.template_name)
 
-
+# Faz login do usuário djnago depois de criado
 class Login(View):
     """
         Autentica e faz login
@@ -86,6 +86,7 @@ class Login(View):
             messages.error(self.request,'Usuário ou senha inválidos')
             return render(self.request, self.template_login)
 
+# Faz logout do usuário django quando termina a seção
 class Logout(View):
     """
         Faz logout e salva o carrinho de compras.
@@ -98,7 +99,7 @@ class Logout(View):
         logout(self.request)
         return redirect('produto:lista')
 
-
+# Atualiza dados de perfil/cadastro de usuário
 class Atualizar(View):
     """
         Atualizar dados de usuário/perfil.
@@ -137,6 +138,7 @@ class Atualizar(View):
 
         return render(self.request, self.template_name, self.contexto)
 
+
     def post(self, *args, **kwargs):
         """
             Resgada os dados dos formulario de Usuário e de Perfil e salva na base de dados.
@@ -164,7 +166,6 @@ class Atualizar(View):
             ),
             'perfilform': forms.PerfilForm()
         }
-
 
         # Resgatando dados do formulario de usuário
         usuario = self.request.POST.get('username')
@@ -206,7 +207,7 @@ class Atualizar(View):
         endereco = self.request.POST.get('endereco')
         estado = self.request.POST.get('estado')
         idade = self.request.POST.get('idade')
-        numero = self.request.POST.get('numero')    
+        numero = self.request.POST.get('numero')
 
         if not valida_cpf(cpf):
             messages.error(
@@ -254,7 +255,7 @@ class Atualizar(View):
         messages.success(self.request, 'Usuário salvo com sucesso')
         return redirect( 'produto:lista')
 
-
+# Mostra os detalhes do perfil no template
 class DetalhePerfil(ListView):
     """
         Detalha os dados do perfil do usuário
@@ -263,7 +264,7 @@ class DetalhePerfil(ListView):
     template_name = 'perfil/detalhe.html'
     context_object_name = 'perfil'
 
-
+# Deleta usuário da base de dados
 class DeletarUsuário(View):
     """
         Esta view deleta o usuário logado.
@@ -289,7 +290,7 @@ class DeletarUsuário(View):
             )
             return redirect('produto:lista')
 
-
+# Atualiza senha do usuário
 class AtualizarSenha(View):
     """
         Esta view verifica e valida a nova senha de usuário com base
