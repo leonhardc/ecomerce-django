@@ -146,6 +146,7 @@ class Atualizar(View):
         # Atualizando dados de usuário. 
         user = User.objects.get(username = self.request.user)        
         perfil = models.Perfil.objects.filter(usuario = self.request.user).first()
+        
         if perfil:
                 self.contexto = {
                     'userform': forms.UserForm(
@@ -196,7 +197,8 @@ class Atualizar(View):
         user.last_name = sobrenome
         user.save()
         
-        # Salvando dados de perfil
+        ## Salvando dados de perfil ##
+
         # Resgatando dados do formulario
         bairro = self.request.POST.get('bairro')
         cep = self.request.POST.get('cep')
@@ -208,46 +210,52 @@ class Atualizar(View):
         estado = self.request.POST.get('estado')
         idade = self.request.POST.get('idade')
         numero = self.request.POST.get('numero')
-
+        
+        # Verificações de integridade dos dados
         if not valida_cpf(cpf):
-            messages.error(
-                self.request,
-                'CPF inválido'
-            )
+            messages.error(self.request,'CPF inválido')
             return render(self.request, self.template_name, self.contexto)
 
         idade_log = calcula_idade(datetime.strptime(data_nascimento, "%d/%m/%Y").date())
         if int(idade) != idade_log:
             idade = idade_log
 
-        #TODO: FAZER VALIDAÇÃO DOS OUTROS CAMPOS
+        if len(cep) < 8:
+            messages.error(self.request, 'CEP inválido')
+            return render(self.request, self.template_name, self.contexto)
+        
+        if datetime.strptime(data_nascimento, "%d/%m/%Y") > datetime.today():
+            messages.error(self.request, 'Data de Nascimento não pode ser maior do que data atual.')
+            return render(self.request, self.template_name, self.contexto)
+  
+        # fim das verificações
 
         if perfil:
             # Salvar dados do formulario de perfil no banco de dados
             perfil.data_nascimento = formata_data(data_nascimento)
             perfil.complemento = complemento
             perfil.endereco = endereco
-            perfil.usuario = user
             perfil.cidade = cidade
             perfil.bairro = bairro
             perfil.estado = estado
             perfil.numero = numero
+            perfil.usuario = user
+            perfil.idade = idade
             perfil.cep = cep
             perfil.cpf = cpf
-            perfil.idade = idade
         else:
             perfil = models.Perfil(
                 data_nascimento = formata_data(data_nascimento),
                 complemento = complemento,
                 endereco = endereco,
-                usuario = user,
                 cidade = cidade,
                 bairro = bairro,
                 estado = estado,
                 numero = numero,
+                usuario = user,
+                idade =idade,
                 cep = cep,
-                cpf = cpf,
-                idade =idade
+                cpf = cpf
             )
 
         perfil.save()        
