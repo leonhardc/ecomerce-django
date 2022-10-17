@@ -86,6 +86,12 @@ Abaixo é mostrado como o projeto se mostra inicialmente, com uma navbar simples
 
 ![Página Inicial](./img/01.png)
 
+## Página de detalhes do produto
+
+Se clicármos em qualquer cards de algum produto, seremos redirecionados para a página a seguir. Esta página consta com alguns detalhes do produto, como nome, descrição curta e descrição longa sobre o produto e preço. Logo abaixo encontramos uma seção de comentários/avaliações do produto, que será implementada posteriormente. Essa página também consta com um formulário de escolha de variações e produto e um botão que adicionará o produto no carrinho de compras.
+
+![Detalhe do Produto](./img/02.png)
+
 
 ## Referências
 
