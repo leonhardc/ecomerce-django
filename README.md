@@ -109,6 +109,13 @@ O app oferece a possibilidade de termminármos o nosso cadastro ou seguirmos par
 
 ![Detalhe do Produto](./img/04.png)
 
+### Concluindo o cadastro de usuário
+Utilizamos um model personalizado para capturarmos algumas informações de usuário que podemos usar posteriormente para concluir o processo de compra. 
+
+No formulário abaixo finalizamos o processo de cadastro, adicionando algumas informações adicionais.
+
+![Detalhe do Produto](./img/05.png)
+
 ### Formulário de Login
 
 Para o caso do usuário não ser novo na plataforma e já ter suas credenciais devidamente cadastradas o proximo formulário serve para fazer login no app, fornecendo usuário e senha.
