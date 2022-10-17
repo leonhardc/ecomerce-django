@@ -77,6 +77,16 @@ Se a mensagem acima foi exibida, então você pode acessar e ver a aplicação e
 
 Como o projeto, a início não usa de base de dados mais robustas, fique a vontade para fazer seu cadastro, entrar entrar e bricar um pouco no pouco que já foi implementado.
 
+
+## Um pouco da cara inicial do projeto
+
+### Página Inicial
+
+Abaixo é mostrado como o projeto se mostra inicialmente, com uma navbar simples com 4 elementos: a logo do projeto, um pequeno formulário de pesquisa de produtos (ainda não funcional), um botão para página principal do app e um botão entrar. Logo abaixo da navbar temos uma area direcionada para exibir os cards de todos os produtos cadastrados no banco de dados do nosso app.
+
+![Página Inicial](./img/01.png)
+
+
 ## Referências
 
 * [Documentação Django](https://docs.djangoproject.com/pt-br/4.1/)
