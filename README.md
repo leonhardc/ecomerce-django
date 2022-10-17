@@ -84,6 +84,8 @@ Como o projeto, a início não usa de base de dados mais robustas, fique a vonta
 
 Abaixo é mostrado como o projeto se mostra inicialmente, com uma navbar simples com 4 elementos: a logo do projeto, um pequeno formulário de pesquisa de produtos (ainda não funcional), um botão para página principal do app e um botão entrar. Logo abaixo da navbar temos uma area direcionada para exibir os cards de todos os produtos cadastrados no banco de dados do nosso app.
 
+Acrescento que as imagens usadas no projeto são meramente ilustrativas e não tem o intuito de fechar compra, até porque qualquer imagem contida no projeto foi retirada de outros sites reais de e-comerce e estão aqui simplesmente para compor cenário.
+
 ![Página Inicial](./img/01.png)
 
 ## Página de detalhes do produto
@@ -91,6 +93,27 @@ Abaixo é mostrado como o projeto se mostra inicialmente, com uma navbar simples
 Se clicármos em qualquer cards de algum produto, seremos redirecionados para a página a seguir. Esta página consta com alguns detalhes do produto, como nome, descrição curta e descrição longa sobre o produto e preço. Logo abaixo encontramos uma seção de comentários/avaliações do produto, que será implementada posteriormente. Essa página também consta com um formulário de escolha de variações e produto e um botão que adicionará o produto no carrinho de compras.
 
 ![Detalhe do Produto](./img/02.png)
+
+## Página de Login/Cadastro
+
+Esta página é um pouco especial, é aqui onde o cliente irá realizar seu cadastro inicial ou logar com suas credencias preenchendo um dos dois formulários disponiveis, o formulario de cadastro ou o formulário de login. 
+
+### Formulário de Cadastro
+
+O formulário abaixo pede três informações ao usuário, nome de usuário, email e senha. É aqui onde o app irá criar as primeiras credenciais do usuário. Vale acrescentar que usamos o modelo de autenticação do django para facilitar a vida, ou seja, utilizamos model models.User do modulo django.contrib.auth. [Clique aqui para ver a documentação](https://docs.djangoproject.com/en/4.1/ref/contrib/auth/)
+
+![Detalhe do Produto](./img/03.png)
+
+#### E agora?
+O app oferece a possibilidade de termminármos o nosso cadastro ou seguirmos para página inicial e terminármos o cadastro depois.
+
+![Detalhe do Produto](./img/04.png)
+
+### Formulário de Login
+
+Para o caso do usuário não ser novo na plataforma e já ter suas credenciais devidamente cadastradas o proximo formulário serve para fazer login no app, fornecendo usuário e senha.
+
+![Detalhe do Produto](./img/03-2.png)
 
 
 ## Referências
