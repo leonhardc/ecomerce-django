@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'produto.apps.ProdutoConfig', # registro do app produto
     'pedido.apps.PedidoConfig', # registro do app pedido
     'perfil.apps.PerfilConfig', # registro do app perfil
+    'perfil.apps.ComentariosConfig', # registro do app comentarios
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
