@@ -4,16 +4,36 @@
 <head>
     {% include 'parciais/_head.html' %}
     <title>e-comerce</title>
+
 </head>
+
+<style>
+    body {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1132%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='rgba(38%2c 116%2c 195%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c560.517C126.434%2c565.951%2c260.139%2c638.167%2c371.545%2c578.136C483.496%2c517.811%2c537.485%2c381.705%2c563.03%2c257.127C585.911%2c145.541%2c519.28%2c40.402%2c504.981%2c-72.605C490.345%2c-188.281%2c547.658%2c-320.695%2c478.08%2c-414.258C408.388%2c-507.974%2c269.029%2c-501.96%2c158.232%2c-538.887C42.588%2c-577.43%2c-72.42%2c-678.255%2c-186.693%2c-635.819C-301.826%2c-593.064%2c-320.667%2c-438.888%2c-387.867%2c-336.089C-444.481%2c-249.484%2c-513.763%2c-175.857%2c-550.583%2c-79.162C-595.589%2c39.033%2c-662.735%2c164.633%2c-624.43%2c285.167C-585.458%2c407.797%2c-469.307%2c495.139%2c-351.572%2c547.056C-242.047%2c595.352%2c-119.591%2c555.377%2c0%2c560.517' fill='%231b548c'%3e%3c/path%3e%3cpath d='M1440 947.05C1539.688 973.549 1638.834 1056.685 1734.647 1018.479 1828.5720000000001 981.0260000000001 1875.704 866.35 1892.458 766.631 1907.7359999999999 675.699 1846.52 593.806 1820.877 505.238 1799.368 430.95 1791.047 355.84299999999996 1753.884 288.018 1708.8600000000001 205.844 1672.574 100.40499999999997 1583.362 71.75299999999999 1494.245 43.13199999999995 1406.509 114.81200000000001 1319.141 148.394 1239.269 179.09500000000003 1142.232 189.45999999999998 1093.731 259.956 1045.886 329.498 1092.08 425.06899999999996 1072.329 507.137 1049.519 601.915 932.011 684.869 969.848 774.711 1007.307 863.6569999999999 1140.719 851.4739999999999 1231.335 884.69 1300.903 910.191 1368.392 928.015 1440 947.05' fill='%234e95dd'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1132'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+        background-color: #ffffff;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
 
 <body>
     {% include 'parciais/_nav.html' %}
-    <main class="container mt-4 mb-4">
-        <div class="d-flex justify-content-center mb-4">
+    <main 
+        class="container" 
+        style="padding: 0; 
+               margin-left: 0; 
+               margin-right: 0; 
+               display: flex;
+               flex-direction: column;
+               justify-items: center;
+               min-width: 100%;
+               min-height: 100%;">
+        <!-- <div class="d-flex justify-content-center mb-4">
             <div style="min-width:600px">
                 {% include 'parciais/_messages.html' %}
             </div>
-        </div>        
+        </div>         -->
+        {% include 'parciais/_messages.html' %}
         {% block content %}{% endblock %}
     </main>
     {% include 'parciais/_footer.html' %}

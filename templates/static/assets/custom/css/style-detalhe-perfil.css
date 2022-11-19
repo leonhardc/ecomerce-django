@@ -14,6 +14,10 @@
     scroll-padding-top: 100px;
     color: var(--border-color-page);
   }
+
+  h1, h2, h3, h4, h5, h6, span, label {
+    color: var(--border-color-page);
+  }
   
   .box {
     background-color: var(--background-color-page);
@@ -54,10 +58,9 @@
     padding-left: 10px;
   }
   
-  .info-card-user span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .info-card-user h6 {
+    font-size: large;
+    color: var(--border-color-page);
     margin-bottom: 10px;
     user-select: none;
   }

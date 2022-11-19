@@ -1,3 +1,10 @@
+.main-bg {
+    background-image: url('main-bg.svg');
+    height: 500px;
+    background-repeat: no-repeat; 
+    background-size: cover; 
+}
+
 .product-price-block {
     font-size: 1.5rem;
 }
@@ -89,3 +96,5 @@ ul.errorlist li {
   'GRAD' 0,
   'opsz' 48
 }
+
+
