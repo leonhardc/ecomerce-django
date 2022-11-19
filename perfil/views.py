@@ -106,6 +106,7 @@ class Atualizar(View):
     """
     def __init__(self) -> None:        
         self.template_name = "perfil/atualizar.html"
+        self.template_name_test = "perfil/detalhe-perfil.html"
         self.contexto = {}
 
 
@@ -116,14 +117,8 @@ class Atualizar(View):
         perfil = models.Perfil.objects.filter(usuario = self.request.user).first()
         if perfil:
                 self.contexto = {
-                    'userform': forms.UserForm(
-                        data=self.request.POST or None,
-                        usuario=self.request.user,
-                        instance=self.request.user
-                    ),
-                    'perfilform': forms.PerfilForm(
-                        instance=perfil
-                    )
+                    'user': User.objects.get(username=self.request.user),
+                    'perfil': perfil
                 }
         else:
             self.contexto = {
@@ -136,7 +131,7 @@ class Atualizar(View):
         }
 
 
-        return render(self.request, self.template_name, self.contexto)
+        return render(self.request, self.template_name_test, self.contexto)
 
 
     def post(self, *args, **kwargs):
