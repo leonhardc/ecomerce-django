@@ -7,7 +7,7 @@
     <input type="checkbox" id="chk" aria-hidden="true">
 
         <div class="signup">
-            <form method="POST" action="{% url 'perfil:criar_usuario' %}">
+            <form method="POST" action="{% url 'perfil:criar' %}">
                 {% csrf_token %}
                 <label class="label-login" for="chk" aria-hidden="true">Inscrever-se</label>
                 <input class="input-login" type="text" name="newuser" placeholder="Usuário" required="">
