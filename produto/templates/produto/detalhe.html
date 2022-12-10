@@ -47,8 +47,11 @@
                     {% endif %}
                 </p>
                 
+                
                 <form action="{% url 'produto:adicionaraocarrinho' %}" id="form-add-to-cart">
+                
                     <div class="form-group">
+                        {% if produto.variacao_set.all %}
                         <select class="form-control form-control-lg" style="width:58%" id="select-variacoes" name="vid">
                             {% for variacao in produto.variacao_set.all %}
                                 {% if variacao.preco_promocional %}
@@ -74,6 +77,7 @@
                                 {% endif %}
                             {% endfor %}
                         </select>
+                        {% endif %}
                     </div>
 
                 <!-- Botões de Comprar ou Adicionar ao Carrinho -->
