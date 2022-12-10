@@ -61,7 +61,7 @@ MIDDLEWARE = [
 
 
     # TODO: remover debug-toobar
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'loja.urls'
