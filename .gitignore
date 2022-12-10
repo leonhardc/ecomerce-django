@@ -5,6 +5,7 @@ loja/__pycache__/
 pedido/migrations/
 produto/migrations/
 perfil/migrations/
+comentarios/migrations/
 
 
 
