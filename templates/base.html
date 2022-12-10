@@ -28,12 +28,13 @@
                justify-items: center;
                min-width: 100%;
                min-height: 100%;">
-        <!-- <div class="d-flex justify-content-center mb-4">
-            <div style="min-width:600px">
+        
+        <div class="d-flex justify-content-center mb-4">
+            <div style="margin: 0px 20px;">
                 {% include 'parciais/_messages.html' %}
             </div>
-        </div>         -->
-        {% include 'parciais/_messages.html' %}
+        </div>        
+        <!-- {% include 'parciais/_messages.html' %} -->
         {% block content %}{% endblock %}
     </main>
     {% include 'parciais/_footer.html' %}

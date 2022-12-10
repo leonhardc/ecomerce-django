@@ -23,13 +23,13 @@
             {% if request.session.carrinho %}
             <li class="nav-item">
                 <a class="nav-link nav-cart-link active" href="{% url 'produto:carrinho' %}">
-                    <span class="nav-cart-icon mr-2">
+                    <span class="nav-cart-icon mr-2" style="color: white;">
                         <i class="fas fa-shopping-cart"></i>
                     </span>
-                    <span class="nav-cart-text mr-1">
+                    <span class="nav-cart-text mr-1" style="color: white;">
                         Carrinho
                     </span>
-                    <span class="nav-cart-count mr-1">
+                    <span class="nav-cart-count mr-1" style="color: white;">
                         <strong>{{ request.session.carrinho|cart_total_qtd }}x</strong>
                     </span>                    
                 </a>
