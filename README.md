@@ -3,8 +3,8 @@
 
 ## Apresentação
 
-Este é um projeto voltado para estudo em Python e em seu framework para desenvolvimento Web, Django. É um projeto multidisciplinar na área de computação, em que pra desenvolvê-lo foi necessário desenvolver não só em Python mas também em HTML, CSS e até arranhar um pouco em JavaScript e Bootstrap. 
-Como este projeto está sendo desenvolvido em single-core, ele ainda está bem no início em que muitas funcionalidades ainda estão em processo de desenvolvimento desenvolvimento. Então, qualquer ajuda e qualquer sugestão é bem vinda. 
+Este é um projeto voltado para estudo em Python e em seu framework para desenvolvimento Web, Django. É um projeto multidisciplinar na área de computação e que para desenvolvê-lo foi necessário outras técnologias além de python. 
+Como este projeto está sendo desenvolvido em single-core, não espere uma aplicação completa já com todas as funcionalidades implementadas e testadas para todos os casos. Dito isso, espero que qualquer um que veja este projeto, ou qualquer outro no meu perfil, sinta-se a vontade para mandar qualquer sugestão.
 
 ## Ferramentas Utilizadas
 
@@ -14,13 +14,15 @@ Este projeto foi desenvolvido utilizando as seguintes ferramentas:
 * Django 4.1
 * Django-Crispy-Forms 1.4
 * Pillow 9.2
-* HTML
-* CSS
+* HTML5
+* CSS3
 * JavaScript
 * Bootstrap
 * SQLite3
 
-## Rodando o Projeto na sua máquina
+## Como executar o projeto
+
+A seguir deixei um pequeno tutorial de como você pode clonar, instalar as dependencias e executar o projeto na sua máquina. Fique a vontade para continuar lendo:
 
 ### Clonando o Repositório
 Primeiramente você precisa fazer o clone do repositório utilizando o comando abaixo:
@@ -50,7 +52,7 @@ pip install -r requirements.txt
 
 ### Executando e testando o projeto
 
-Vamos lá, só mais um pouco para chegarmos onde queremos. Depois de todos os passos anteriores e lembrando, com o ambiente virtual ativado, só precisamos rodar o servidor nativo do django, para que ele cuide das nossas requisições e faça a aplicação, de fato, ser executada. 
+Vamos lá, só mais um pouco para chegarmos onde queremos. Depois de todos os passos anteriores e lembrando, com o ambiente virtual ativado, só precisamos rodar o servidor nativo do django para que ele cuide das nossas requisições e faça a aplicação, de fato, ser executada. 
 
 Execute no seu terminal o comando para que possamos ativar o servidor django:
 
@@ -122,6 +124,9 @@ Para o caso do usuário não ser novo na plataforma e já ter suas credenciais d
 
 ![Detalhe do Produto](./img/03-2.png)
 
+## Status do Projeto
+
+Em desenvolvimento.
 
 ## Referências
 
