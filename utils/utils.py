@@ -69,3 +69,11 @@ def formata_data(data):
     else:
         return "1900-01-01"
 
+
+def formata_descricao(descricao):
+    if len(descricao) > 50:
+        descricao = descricao[:50] + '...'
+        return descricao
+    else:
+        return descricao
+

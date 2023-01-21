@@ -23,5 +23,9 @@ def formata_cpf(cpf):
 def formata_cep(cep):
     return utils.formata_cep(cep)
 
+@register.filter
+def formata_descricao(descricao):
+    return utils.formata_descricao(descricao)
+
 
 
