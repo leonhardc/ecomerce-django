@@ -12,11 +12,11 @@
     font-family: sans-serif;
     scroll-behavior: smooth;
     scroll-padding-top: 100px;
-    color: var(--border-color-page);
+    /* color: var(--border-color-page); */
   }
 
   h1, h2, h3, h4, h5, h6, span, label {
-    color: var(--border-color-page);
+    /* color: var(--border-color-page); */
   }
   
   .box {
