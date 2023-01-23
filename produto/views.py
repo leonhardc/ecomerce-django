@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 from .models import Produto, Variacao
 from perfil.models import Perfil
+from comentarios.models import Comentario
+import datetime
 
 
 class ListaProdutos(ListView):
@@ -338,3 +340,42 @@ class ResumoDaCompra(View):
         }
         
         return render(self.request, self.template_name, context=contexto)
+
+
+def adicionarComentario(request):
+    """
+        Esta view recebe o conteudo do formulário em produto/detalhe.html e guarda
+        o comentário
+    """
+    if not request.user.is_authenticated:
+        messages.error(request, "Antes de deixar sua avaliação faça login no nosso site.")
+
+    if request.method == "POST":
+        """
+            Verficiar se o usuário está autenticado;
+            Se sim, fazer comentário guardando:
+                1. id do produto que será comentado
+                2. id do usuario que comentou
+                3. hora do comentario
+
+            Se não, pedir para o usuário fazer login
+        """
+        referer = request.META.get('HTTP_REFERER')
+        slug = referer.split('/')[-1]
+
+        # Descobrir como resgatar o id fo produto que estou fazendo a busca
+        produto = Produto.objects.get(slug = slug)
+        comentario = request.POST.get('comentario')
+
+        comentar = Comentario(
+            comentario = comentario,
+            produto_comentario = produto, 
+            usuario_comentario = request.user
+        )
+
+        comentar.save()
+        messages.success(request, "Comentário adicionado com sucesso!")
+        return redirect(referer)
+
+    messages.error(request, "Comentário não adicionado.")
+    return redirect(request.META.get('HTTP_REFERER'))
