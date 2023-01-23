@@ -3,8 +3,6 @@ from .models import Comentario
 
 class ComentarioAdmin(admin.ModelAdmin):
     list_display = [
-        'nome_comentario',
-        'email_comentario',
         'produto_comentario',
         'produto_comentario',
         'usuario_comentario',
