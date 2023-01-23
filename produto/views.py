@@ -34,7 +34,7 @@ class DetalheProduto(View):
         slug = kwargs['slug']
 
         produto = Produto.objects.filter(slug=slug).first()
-        comentario_produto = Comentario.objects.filter(produto_comentario=produto)
+        comentario_produto = Comentario.objects.filter(produto_comentario=produto).order_by('-data_comentario')
 
         contexto = {
             'produto': produto,

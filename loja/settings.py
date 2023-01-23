@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'pedido.apps.PedidoConfig', # registro do app pedido
     'perfil.apps.PerfilConfig', # registro do app perfil
     'comentarios.apps.ComentariosConfig', # registro do app comentarios
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
