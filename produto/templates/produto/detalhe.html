@@ -124,7 +124,8 @@
                 
                 <div class="row mb-2 ">
                     <h4 class="mx-4">Deixe sua avaliação</h4>
-                    <form action="#" class="mx-4">
+                    <form action="{% url 'produto:comentar' %}" class="mx-4" method="POST">
+                        {% csrf_token %}
                         <div class="row mx-auto mb-2">                           
                             <textarea class="ms-2" name="comentario" id="comentario" cols="105" rows="5" placeholder="Insira seu comentário ..."></textarea>
                         </div>
@@ -135,68 +136,28 @@
                         </div>
                     </form>
                 </div>
-
+                {% for comentario in comentarios %}
                 <div class="row mb-2">
                     <div class="col border mx-4" style="border-radius: 10px;">
-                        <div class="row border-bottom py-2">
+                        <div class="row border-bottom py-2 bg-body-secondary">
                             <div class="col py-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                                 </svg>
-                                <span>user-name</span>
+                                <span>{{comentario.usuario_comentario}}</span>
                             </div>
                         </div>
                         <div class="row pt-1">
                             <div class="col">
                                 <p class="text-justify">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at leo vitae diam suscipit auctor. Suspendisse euismod sem nisl, vitae hendrerit ante semper ac. 
+                                    {{comentario.comentario}}
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <div class="col border mx-4" style="border-radius: 10px;">
-                        <div class="row border-bottom py-2">
-                            <div class="col py-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                </svg>
-                                <span>user-name</span>
-                            </div>
-                        </div>
-                        <div class="row pt-1">
-                            <div class="col">
-                                <p class="text-justify">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at leo vitae diam suscipit auctor. Suspendisse euismod sem nisl, vitae hendrerit ante semper ac. 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col border mx-4" style="border-radius: 10px;">
-                        <div class="row border-bottom py-2">
-                            <div class="col py-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                </svg>
-                                <span>user-name</span>
-                            </div>
-                        </div>
-                        <div class="row pt-1">
-                            <div class="col">
-                                <p class="text-justify">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at leo vitae diam suscipit auctor. Suspendisse euismod sem nisl, vitae hendrerit ante semper ac. 
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                {% endfor %}
 
             </div>
         </div>

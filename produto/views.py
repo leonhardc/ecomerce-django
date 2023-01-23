@@ -18,15 +18,34 @@ class ListaProdutos(ListView):
     template_name = 'produto/lista.html'
     context_object_name = 'produtos'
 
-class DetalheProduto(DetailView):
-    """
-        Mostra os detalhes do produto selecionado na página principal
-    """
+# class DetalheProduto(DetailView):
+#     """
+#         Mostra os detalhes do produto selecionado na página principal
+#     """
 
-    model = Produto
-    template_name = 'produto/detalhe.html'
-    context_object_name = 'produto'
-    slug_url_kwarg = 'slug'
+#     model = Produto
+#     template_name = 'produto/detalhe.html'
+#     context_object_name = 'produto'
+#     slug_url_kwarg = 'slug'
+
+class DetalheProduto(View):
+    def get(self, *args, **kwargs):
+        template_name = 'produto/detalhe.html'
+        slug = kwargs['slug']
+
+        produto = Produto.objects.filter(slug=slug).first()
+        comentario_produto = Comentario.objects.filter(produto_comentario=produto)
+
+        contexto = {
+            'produto': produto,
+            'comentarios': comentario_produto
+        }
+
+        return render(
+            self.request,
+            template_name=template_name,
+            context=contexto
+        )
 
 class AdicionarAoCarrinho(View):
     """
@@ -349,6 +368,7 @@ def adicionarComentario(request):
     """
     if not request.user.is_authenticated:
         messages.error(request, "Antes de deixar sua avaliação faça login no nosso site.")
+        return redirect(request.META.get('HTTP_REFERER'))
 
     if request.method == "POST":
         """
