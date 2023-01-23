@@ -40,4 +40,5 @@ urlpatterns = [
     path('carrinho/', views.Carrinho.as_view(), name='carrinho'),
     path('resumodacompra/', views.ResumoDaCompra.as_view(), name='resumodacompra'),
     path('comprar/', views.Comprar.as_view(), name='comprar'),
+    path('comentar/', views.adicionarComentario, name="comentar"),
 ]
