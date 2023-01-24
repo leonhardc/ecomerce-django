@@ -412,3 +412,7 @@ def updateUserInfo(request):
 
         messages.success(request, 'Informações adicionadas com sucesso.')
         return redirect(request.META.get('HTTP_REFERER'))
+
+def updateUserAdress(request):
+    if request.method == 'POST':
+        pass

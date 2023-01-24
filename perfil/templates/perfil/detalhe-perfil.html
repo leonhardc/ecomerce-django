@@ -84,48 +84,37 @@
 
             <!-- Formulario de Endereço -->
             <div class="form-user" id="form-adress-id">
-                <h3>Informações de Endereço</h3>
+                <h3 class="mb-4">Informações de Endereço</h3>
                 <form action="#" method="post">
-                    
-                    <div class="form-div">
-                        <label for="rua">Rua</label>
-                        <input type="text" id="rua" placeholder="">
+                    {% csrf_token %}
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Rua: </span>
+                        <input type="text" class="form-control" id="rua" name="rua" value="" aria-describedby="basic-addon3" placeholder="Digite o nome da sua rua" required>
                     </div>
-                    
-                    <div class="form-div">
-                        <label for="bairro">Bairro</label>
-                        <input type="text" id="bairro" placeholder="">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Bairro: </span>
+                        <input type="text" class="form-control" id="bairro" name="bairro" value="" aria-describedby="basic-addon3" placeholder="Digite o seu bairro" required>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Numero: </span>
+                        <input type="text" class="form-control" id="numero" name="numero" value="" aria-describedby="basic-addon3" placeholder="Digite o numero da sua casa" required>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Cidade: </span>
+                        <input type="text" class="form-control" id="cidade" name="cidade" value="" aria-describedby="basic-addon3" placeholder="Digite sua cidade" required>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">CEP: </span>
+                        <input type="text" class="form-control" id="cep" name="cep" value="" aria-describedby="basic-addon3" placeholder="Digite o seu CEP" required>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Complemento: </span>
+                        <input type="text" class="form-control" id="complemento" name="complemento" value="" aria-describedby="basic-addon3" placeholder="" required>
                     </div>
 
-                    <div class="form-div">
-                        <label for="numero">Numero</label>
-                        <input type="text" id="numero" placeholder="">
-                    </div>
-                    
-                    <div class="form-div">
-                        <label for="cidade">Cidade</label>
-                        <input type="text" id="cidade" placeholder="">
-                    </div>
-
-                    
-                    <div class="form-div">
-                        <label for="cep">CEP</label>
-                        <input type="text" id="cep" placeholder="" maxlength="8">
-                    </div>                                                        
-                                                
-                    <div class="form-div">
-                        <label for="bairro">Bairro</label>
-                        <input type="text" id="bairro" placeholder="">
-                    </div>
-                                                
-                    <div class="form-div">
-                        <label for="complemento">Complemento</label>
-                        <input type="text" id="complemento" placeholder="Casa/Apartamento/etc">
-                    </div>
-                    
-                    <div class="form-div">
-                        <label for="estado">Complemento</label>
-                        <select name="select-estado" id="select">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Estado: </span>
+                        <select name="select-estado" id="select" class="form-select">
                             <option value="AC">Acre</option>
                             <option value="AL">Alagoas</option>
                             <option value="AP">Amapá</option>
@@ -154,36 +143,35 @@
                             <option value="SE">Sergipe</option>
                             <option value="TO">Tocantins</option>
                         </select>
-                    </div>                                                                                    
-                    
-                    <div class="b-submmit">
-                        <button type="submit">Guardar Endereço</button>
                     </div>
+                    
+                    <div class="row d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-4 mx-3">Guardar Endereço</button>
+                    </div>
+
                 </form>
             </div>
 
             <!-- Formulário para Troca de Senha -->
             <div class="form-user" id="form-password-change">
-                <h3>Trocar Senha</h3>
+                <h3 class="mb-4">Trocar Senha</h3>
                 <form action="#" method="post">
-                    
-                    <div class="form-div">
-                        <label for="senha-antiga">Senha Antiga</label>
-                        <input type="text" id="senha-antiga" placeholder="Digite a senha antiga">
+                    {% csrf_token %}
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Senha Antiga: </span>
+                        <input type="password" class="form-control" id="old_password" name="old_password" value="" aria-describedby="basic-addon3" placeholder="" required>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Nova Senha: </span>
+                        <input type="password" class="form-control" id="new_password" name="new_password" value="" aria-describedby="basic-addon3" placeholder="" required>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Senha Antiga: </span>
+                        <input type="password" class="form-control" id="new_password_confirm" name="new_password_confirm" value="" aria-describedby="basic-addon3" placeholder="" required>
                     </div>
 
-                    <div class="form-div">
-                        <label for="nova-senha">Nova Senha</label>
-                        <input type="text" id="nova-senha" placeholder="Digite sua nova senha">
-                    </div>
-                    
-                    <div class="form-div">
-                        <label for="confirmacao-senha">Confirmar nova senha</label>
-                        <input type="text" id="confirmacao-senha" placeholder="Confirme a nova senha">
-                    </div>
-
-                    <div class="b-submmit">
-                        <button type="submit">Trocar Senha</button>
+                    <div class="row d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-4 mx-3">Mudar senha</button>
                     </div>
                 </form>
             </div>
