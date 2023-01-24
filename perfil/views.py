@@ -378,7 +378,7 @@ def updateUserInfo(request):
             return redirect(request.META.get('HTTP_REFERER'))
         
         user = User.objects.get(username=request.user.username)
-        perfil = models.Perfil.objects.filter(usuario=user)
+        perfil = models.Perfil.objects.get(usuario=user)
 
         if not perfil: # Não achou o perfil de usuário
             # Salvando informações do usuário
@@ -400,17 +400,14 @@ def updateUserInfo(request):
         
         # Achou o perfil, atualiza as informações
         user.first_name = primeiro_nome
+        user.email = user.email
         user.last_name = sobrenome
         user.save()
 
-        # Criando um novo perfil
-        perfil = models.Perfil(
-            usuario = user, 
-            data_nascimento = data_nascimento,
-            cpf = cpf,
-            idade = idade
-        )
-
+        # Atualizando informações do perfil
+        perfil.data_nascimento = data_nascimento
+        perfil.cpf = cpf
+        perfil.idade = idade
         perfil.save()
 
         messages.success(request, 'Informações adicionadas com sucesso.')

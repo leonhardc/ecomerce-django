@@ -17,18 +17,20 @@ class Perfil(models.Model):
         blank= True,
         null= True)
     
-    idade = models.PositiveIntegerField()
-    data_nascimento = models.DateField()
-    cpf = models.CharField(max_length=11)
+    idade = models.PositiveIntegerField(blank=True, null=True)
+    data_nascimento = models.DateField(blank=True, null=True)
+    cpf = models.CharField(max_length=11, blank=True, null=True)
     
-    endereco = models.CharField(max_length=50)
-    numero = models.CharField(max_length=5)
-    complemento = models.CharField(max_length=30)
-    bairro = models.CharField(max_length=30)
-    cep = models.CharField(max_length=8)
-    cidade = models.CharField(max_length=30)
+    endereco = models.CharField(max_length=50, blank=True, null=True)
+    numero = models.CharField(max_length=5, blank=True, null=True)
+    complemento = models.CharField(max_length=30, blank=True, null=True)
+    bairro = models.CharField(max_length=30, blank=True, null=True)
+    cep = models.CharField(max_length=8, blank=True, null=True)
+    cidade = models.CharField(max_length=30, blank=True, null=True)
     estado = models.CharField(
-        max_length=2,
+        max_length=2, 
+        blank=True, 
+        null=True,
         default='CE',
         choices= (
             ('AC', 'Acre'),
