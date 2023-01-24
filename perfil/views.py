@@ -360,3 +360,58 @@ class AtualizarSenha(View):
             self.request,
             self.template_atualizar_senha
         )
+
+
+def updateUserInfo(request):
+
+    if request.method == "POST":
+        primeiro_nome = request.POST.get('first_name')
+        sobrenome = request.POST.get('last_name')
+        data_nascimento = request.POST.get('data_nascimento')
+        idade_dias = datetime.now().date() - datetime.strptime('1996-04-06', '%Y-%m-%d').date()
+        idade = int(idade_dias.days / (365.25))
+        cpf = request.POST.get('cpf')
+
+        if not valida_cpf(cpf):
+            # Retorna para pagina anterior e mostra mensagem de erro
+            messages.error(request, 'Digite um cpf válido.')
+            return redirect(request.META.get('HTTP_REFERER'))
+        
+        user = User.objects.get(username=request.user.username)
+        perfil = models.Perfil.objects.filter(usuario=user)
+
+        if not perfil: # Não achou o perfil de usuário
+            # Salvando informações do usuário
+            user.first_name = primeiro_nome
+            user.last_name = sobrenome
+            user.save()
+
+            # Criando um novo perfil
+            novo_perfil = models.Perfil(
+                usuario = user, 
+                data_nascimento = data_nascimento,
+                cpf = cpf,
+                idade = idade
+            )
+
+            novo_perfil.save()
+            messages.success(request, 'Informações adicionadas com sucesso.')
+            return redirect(request.META.get('HTTP_REFERER'))
+        
+        # Achou o perfil, atualiza as informações
+        user.first_name = primeiro_nome
+        user.last_name = sobrenome
+        user.save()
+
+        # Criando um novo perfil
+        perfil = models.Perfil(
+            usuario = user, 
+            data_nascimento = data_nascimento,
+            cpf = cpf,
+            idade = idade
+        )
+
+        perfil.save()
+
+        messages.success(request, 'Informações adicionadas com sucesso.')
+        return redirect(request.META.get('HTTP_REFERER'))

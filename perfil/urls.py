@@ -13,6 +13,8 @@ urlpatterns = [
     path('atualizar/', views.Atualizar.as_view(), name='atualizar'),
     path('deletarusuario/', views.DeletarUsuário.as_view(), name='deletar_usuario'),
     
+    path('updateuserinfo/', views.updateUserInfo , name="update_user_info"),
+
     path('atualizarsenha/', views.AtualizarSenha.as_view(), name='atualizarsenha'),
 ]
 

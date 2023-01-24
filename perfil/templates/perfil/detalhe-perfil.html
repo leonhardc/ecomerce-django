@@ -53,36 +53,31 @@
         <div class="forms-info">
             <!-- Formulario de Informações do usuário -->
             <div class="form-user" id="form-user-id">
-                <h3>Informações de Usuário</h3>
-                <form action="#" method="post">
-                    
-                    <div class="form-div">
-                        <label for="primeiro-nome">Primeiro Nome</label>
-                        <input type="text" id="primeiro-nome" placeholder="Digite seu nome" value="{{ user.first_name}}">
-                    </div>
-                    
-                    <div class="form-div">
-                        <label for="sobrenome">Sobrenome</label>
-                        <input type="text" id="sobrenome" placeholder="Digite seu Sobrenome" value="{{ user.last_name}}">
+                <h3 class="mb-4">Informações de Usuário</h3>
+                <form action="{% url 'perfil:update_user_info' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Primeiro Nome: </span>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}"aria-describedby="basic-addon3" placeholder="Digite seu primeiro nome" required>
                     </div>
 
-                    <div class="form-div">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Digite seu email" value="{{ user.email}}">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Sobrenome: </span>
+                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name}}" aria-describedby="basic-addon3" placeholder="Digite seu sobrenome" required>
                     </div>
                     
-                    <div class="form-div">
-                        <label for="data-nascimento">Data de Nascimento</label>
-                        <input type="date" id="data-nascimento" value="{{ perfil.data_nascimento }}">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Data de Nascimento: </span>
+                        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" value="{{perfil.data_nascimento}}" aria-describedby="basic-addon3" placeholder="Digite sua data de nascimento" required>
                     </div>
                     
-                    <div class="form-div">
-                        <label for="primeiro-nome">CPF</label>
-                        <input type="text" id="cpf" maxlength="11" placeholder="Digite somente os numeros" value="{{ perfil.cpf}}">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">CPF: </span>
+                        <input type="text" class="form-control" id="cpf" name="cpf" value="{{perfil.cpf}}" aria-describedby="basic-addon3" placeholder="Digite seu CPF" maxlength="11" required>
                     </div>
 
-                    <div class="b-submmit">
-                        <button type="submit">Guardar</button>
+                    <div class="row d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-4 mx-3">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -194,14 +189,6 @@
             </div>
 
         </div>
-        <div class="photo-info">
-            <div class="card-photo">
-                <img src="https://cdn-icons-png.flaticon.com/512/6073/6073873.png" alt="Imagem de usuário vazio">
-                <span><b>Username</b></span>
-            </div>
-            
-        </div>
-
     </div>
 </div>
 

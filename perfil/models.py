@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.forms import ValidationError
 from utils.utils import valida_cpf
 from PIL import Image
+from django.conf import settings
 import os
 import re
 
