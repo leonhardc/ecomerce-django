@@ -85,7 +85,7 @@
             <!-- Formulario de Endereço -->
             <div class="form-user" id="form-adress-id">
                 <h3 class="mb-4">Informações de Endereço</h3>
-                <form action="#" method="post">
+                <form action="{% url 'perfil:update_user_adress' %}" method="POST">
                     {% csrf_token %}
                     <div class="input-group mb-2">
                         <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Rua: </span>
@@ -155,7 +155,7 @@
             <!-- Formulário para Troca de Senha -->
             <div class="form-user" id="form-password-change">
                 <h3 class="mb-4">Trocar Senha</h3>
-                <form action="#" method="post">
+                <form action="{% url 'perfil:update_password' %}" method="POST">
                     {% csrf_token %}
                     <div class="input-group mb-2">
                         <span class="input-group-text" id="basic-addon3" style="min-width: 180px;">Senha Antiga: </span>
