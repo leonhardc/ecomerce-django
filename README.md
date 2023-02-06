@@ -1,4 +1,4 @@
-# Modelo de E-comerce_Django
+# E-comerve Django
 
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
@@ -124,10 +124,6 @@ No formulário abaixo finalizamos o processo de cadastro, adicionando algumas in
 Para o caso do usuário não ser novo na plataforma e já ter suas credenciais devidamente cadastradas o proximo formulário serve para fazer login no app, fornecendo usuário e senha.
 
 ![Detalhe do Produto](./img/03-2.png)
-
-## Status do Projeto
-
-Em desenvolvimento.
 
 ## Referências
 
