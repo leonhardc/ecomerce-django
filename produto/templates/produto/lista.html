@@ -16,8 +16,20 @@
 
                             {% if produto.imagem %}
                                 <a href="{{ produto.slug }}">
-                                    <img class="card-img-top" src="{{ produto.imagem.url }}"
-                                         alt="{{ produto.nome }}">
+                                    <!-- <img class="card-img-top" src="{{ produto.imagem.url }}"
+                                         alt="{{ produto.nome }}"> -->
+                                         <div 
+                                            style=" width: 90%;
+                                                    height: 500px;
+                                                    background-image: url('{{produto.imagem.url}}');
+                                                    background-position: center;
+                                                    background-repeat: no-repeat;
+                                                    background-size: cover;
+                                                    margin-right: auto;
+                                                    margin-left: auto;
+                                                    margin-top: 10px;
+                                                    border-radius: 10px;">
+                                         </div>
                                 </a>
                             {% endif %}
 
